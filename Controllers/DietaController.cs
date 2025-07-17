@@ -11,8 +11,6 @@ namespace RunGymFront.Controllers
     [Authorize]
     public class DietaController : Controller
     {
-        private static string apiURL = ConfigurationManager.AppSettings["Api"].ToString();
-
         public ActionResult Dieta()
         {
             if (SessionHelper.Rol == "1")
