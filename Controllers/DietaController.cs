@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using RunGymFront.Models;
+﻿using RunGymFront.Models;
 using RunGymFront.Services;
 using System;
 using System.Collections.Generic;
