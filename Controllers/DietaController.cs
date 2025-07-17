@@ -152,7 +152,6 @@ namespace RunGymFront.Controllers
                     TempData["Success"] = "Dieta eliminada correctamente.";
 
                 return RedirectToAction("Dieta", "Dieta");
-            
         }
     }
 }
