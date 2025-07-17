@@ -1,0 +1,283 @@
+﻿@model RunGymFront.Models.Usuarios
+@{
+    ViewBag.Title = "Editar Perfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .profile-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .profile-card {
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        border: none;
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        background-color: #4361ee;
+        color: white;
+        border-radius: 15px 15px 0 0 !important;
+        padding: 20px;
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+
+    .profile-section {
+        padding: 30px;
+    }
+
+    .profile-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .info-item {
+        margin-bottom: 15px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .info-label {
+        font-weight: 600;
+        color: #4361ee;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+    }
+
+        .info-label i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+    .info-value {
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .btn-edit {
+        background-color: #4361ee;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s;
+    }
+
+        .btn-edit:hover {
+            background-color: #3a56d4;
+            transform: translateY(-2px);
+        }
+
+    .btn-delete {
+        background-color: #dc3545;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s;
+    }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+    .empty-profile {
+        text-align: center;
+        padding: 50px;
+        color: #6c757d;
+    }
+
+        .empty-profile i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #dee2e6;
+        }
+
+    .alert {
+        border-radius: 8px;
+    }
+</style>
+
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="card-header">
+            <i class="fas fa-user-edit me-2"></i>Editar Perfil
+        </div>
+
+        <div class="profile-section">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            @* Mostrar errores de validación del ModelState *@
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Corrige los siguientes errores:</strong>
+                    <ul class="mb-0 mt-2">
+                        @foreach (var state in ViewData.ModelState)
+                        {
+                            foreach (var error in state.Value.Errors)
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        }
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            @using (Html.BeginForm("Editar", "Perfil", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="profile-info">
+
+                    <div class="info-group">
+                        <h5><i class="fas fa-user me-2"></i>Información Personal</h5>
+                        <div class="info-item">
+                            <label class="info-label">Nombre</label>
+                            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", placeholder = "Nombre", required = "required" })
+                        </div>
+
+                        <div class="info-item">
+                            <label class="info-label">Apellido</label>
+                            @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control", placeholder = "Apellido", required = "required" })
+                        </div>
+
+                        <div class="info-item">
+                            <label class="info-label">Tipo de Documento</label>
+                            @Html.DropDownListFor(m => m.TipoDocumento, new SelectList(new[] {
+                                new { Value = "Cédula", Text = "Cédula" },
+                                new { Value = "Pasaporte", Text = "Pasaporte" },
+                                new { Value = "DNI", Text = "DNI" }
+                            }, "Value", "Text", Model.TipoDocumento), "Seleccione un tipo", new { @class = "form-control" })
+                        </div>
+
+                        <div class="info-item">
+                            <label class="info-label">Documento</label>
+                            @Html.TextBoxFor(m => m.Documento, new { @class = "form-control", placeholder = "Número de documento" })
+                        </div>
+
+                        <div class="info-item">
+                            <label class="info-label">Fecha de Nacimiento</label>
+                            @Html.TextBoxFor(m => m.FechaNacimiento, "{0:yyyy-MM-dd}", new { @class = "text-danger", type = "date" })
+                        </div>
+
+                        <div class="info-item">
+                            <label class="info-label">Género</label>
+                            @Html.DropDownListFor(m => m.Genero, new SelectList(new[] {
+                                new { Value = "Masculino", Text = "Masculino" },
+                                new { Value = "Femenino", Text = "Femenino" },
+                                new { Value = "Otro", Text = "Otro" }
+                            }, "Value", "Text", Model.Genero), "Seleccione género", new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <h5><i class="fas fa-envelope me-2"></i>Contacto</h5>
+
+                        <div class="info-item">
+                            <label class="info-label">Correo electrónico</label>
+                            @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", type = "email", placeholder = "Correo" })
+                        </div>
+
+                        <div class="info-item">
+                            <label class="info-label">Celular</label>
+                            @Html.TextBoxFor(m => m.Celular, new { @class = "text-danger", placeholder = "Teléfono móvil", type = "tel" })
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <h5><i class="fas fa-heartbeat me-2"></i>Datos de Salud</h5>
+
+                        <div class="info-item">
+                            <label class="info-label">Peso (kg)</label>
+                            @Html.TextBoxFor(m => m.Peso, new { @class = "form-control", type = "number", step = "any" })
+                        </div>
+
+                        <div class="info-item">
+                            <div class="form-group">
+                                <label class="info-label">Altura (m)</label>
+
+
+                                @Html.TextBoxFor(m => m.Altura, new
+                               {
+                                   @class = "form-control",
+                                   placeholder = "Ej: 1.75",
+                                   lang = "en-US",
+                                   step = "0.01",
+                                   type = "number"
+                               })
+                            </div>
+
+                        </div>
+
+                        <div class="info-item">
+                            <label class="info-label">Horas de Sueño</label>
+                            @Html.TextBoxFor(m => m.HorasSueno, new { @class = "form-control", type = "decimal", step = "any" })
+                        </div>
+
+                        <div class="info-item">
+                            <label class="info-label">Consumo de Agua (L/día)</label>
+                            @Html.TextBoxFor(m => m.ConsumoAgua, new { @class = "form-control", type = "text" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons mt-4 text-center">
+                    <button type="submit" class="btn-edit">
+                        <i class="fas fa-save me-2"></i>Guardar Cambios
+                    </button>
+                    <a href="@Url.Action("Perfil", "Perfil")" class="btn btn-secondary">
+                        <i class="fas fa-times me-2"></i>Cancelar
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var alert = document.querySelector('.alert');
+        if (alert) {
+            setTimeout(function () {
+                bootstrap.Alert.getOrCreateInstance(alert).close();
+            }, 5000);
+        }
+    });
+</script>

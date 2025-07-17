@@ -1,0 +1,650 @@
+﻿@model List<RunGymFront.Models.Metas>
+@{
+    ViewBag.Title = "Mis Metas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Metas | RunGym</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Estilos CSS mejorados en línea con nueva paleta azul y tamaño más compacto -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* Fondo gris muy claro para una base limpia */
+            color: #34495e; /* Texto principal en un gris azulado oscuro */
+            line-height: 1.5; /* Línea más compacta */
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px auto; /* Ancho máximo un poco más pequeño */
+        }
+
+        .dashboard-card {
+            background-color: #ffffff;
+            border-radius: 12px; /* Bordes ligeramente menos redondeados para compacidad */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Sombra más sutil */
+            overflow: hidden;
+            margin-top: 1.5rem; /* Margen reducido */
+            margin-bottom: 1.5rem; /* Margen reducido */
+            opacity: 0;
+            transform: translateY(15px); /* Menos desplazamiento inicial */
+            animation: fadeInScale 0.5s ease-out forwards; /* Animación ligeramente más rápida */
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Transición para el hover */
+        }
+
+        .dashboard-card:hover { /* Nuevo estilo para el hover del container */
+            background-color: #e9f5ff; /* Un azul muy claro al pasar el mouse */
+            transform: translateY(-5px); /* Pequeña elevación */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #2b88be, #2b88be); /* Gradiente de azules */
+            color: #ffffff;
+            padding: 1.2rem 1.8rem; /* Padding reducido */
+            border-bottom: none;
+            display: flex;
+            align-items: center;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3); /* Sombra azul para el encabezado */
+        }
+
+        .card-title {
+            margin-bottom: 0;
+            font-size: 1.6rem; /* Tamaño de fuente reducido */
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.2px; /* Menos espaciado */
+        }
+
+        .card-title .fas {
+            margin-right: 10px; /* Menos espacio */
+            font-size: 1.8rem; /* Tamaño de icono reducido */
+            color: #ffffff;
+        }
+
+        /* Animaciones */
+        @@keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.99);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @@keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Alertas Bootstrap personalizadas */
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+            border-radius: 6px; /* Menos redondeado */
+            padding: 0.8rem 1.2rem; /* Padding reducido */
+            animation: fadeIn 0.3s ease-out; /* Animación más rápida */
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border-color: #ffeeba;
+            border-radius: 6px;
+            padding: 0.8rem 1.2rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Estado vacío de metas */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1.5rem; /* Padding reducido */
+            color: #6c757d; /* Gris medio */
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .empty-icon {
+            font-size: 4.5rem; /* Icono más pequeño */
+            color: #ced4da; /* Gris claro */
+            margin-bottom: 1.5rem; /* Margen reducido */
+        }
+
+        .empty-title {
+            font-size: 1.6rem; /* Tamaño de fuente reducido */
+            color: #34495e;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+        }
+
+        .empty-text {
+            font-size: 1rem; /* Tamaño de fuente reducido */
+            max-width: 500px; /* Ancho máximo reducido */
+            margin: 0 auto;
+            color: #6c757d;
+        }
+
+        /* Tarjeta de meta individual */
+        .goal-card {
+            background-color: #ffffff;
+            border: 1px solid #e9ecef; /* Borde sutil */
+            border-radius: 10px; /* Menos redondeado */
+            padding: 1.8rem; /* Padding reducido */
+            margin-bottom: 1.2rem; /* Margen reducido */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05); /* Sombra más sutil */
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Transición más rápida */
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .goal-card:hover {
+            background-color: #dbeaf5; /* Un azul más oscuro al pasar el mouse */
+            transform: translateY(-5px) scale(1.005); /* Elevación y ligera escala más sutil */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra más intensa al hover */
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem; /* Margen reducido */
+            padding-bottom: 0.8rem; /* Padding reducido */
+            border-bottom: 1px solid #dee2e6; /* Borde más fino */
+        }
+
+        .goal-title {
+            font-size: 1.4rem; /* Tamaño de fuente reducido */
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0;
+            letter-spacing: 0.2px;
+        }
+
+        .goal-status {
+            padding: 0.4rem 0.8rem; /* Padding reducido */
+            border-radius: 20px; /* Menos redondeado */
+            font-size: 0.8rem; /* Tamaño de fuente reducido */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #ffffff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08); /* Sombra más pequeña */
+        }
+
+        .status-active {
+            background: linear-gradient(45deg, #3498db, #2980b9); /* Gradiente de azules para activo */
+        }
+
+        .status-completed {
+            background: linear-gradient(45deg, #5cb85c, #4cae4c); /* Verde para completado */
+        }
+
+        .status-expired {
+            background: linear-gradient(45deg, #dc3545, #c82333); /* Rojo para vencido */
+        }
+
+        /* Detalles de la meta */
+        .goal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Columnas más pequeñas */
+            gap: 1.2rem; /* Espacio reducido */
+            margin-bottom: 1.8rem; /* Margen reducido */
+        }
+
+        .detail-item {
+            background-color: #fdfdfe; /* Fondo casi blanco */
+            padding: 0.9rem 1.2rem; /* Padding reducido */
+            border-radius: 8px; /* Menos redondeado */
+            border: 1px solid #e0e6ea; /* Borde más sutil */
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.03); /* Sombra interna más sutil */
+        }
+
+        .detail-label {
+            font-size: 0.85rem; /* Tamaño de fuente reducido */
+            color: #6c757d;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .detail-label .fas, .detail-label .far {
+            margin-right: 8px;
+            color: #adb5bd; /* Iconos en gris más claro */
+            font-size: 1rem; /* Tamaño de icono reducido */
+        }
+
+        .detail-value {
+            font-size: 1.05rem; /* Valor más pequeño */
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        /* Contenedor de tiempo restante */
+        .time-container {
+            text-align: center;
+            background: linear-gradient(90deg, #e6f2fa, #d1e2f3); /* Gradiente de azules muy suaves */
+            padding: 1.5rem; /* Padding reducido */
+            border-radius: 10px; /* Menos redondeado */
+            margin-top: 1.8rem; /* Margen reducido */
+            border: 1px solid #b6d4e8; /* Borde azul suave */
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1); /* Sombra azul sutil */
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .time-label {
+            font-size: 0.9rem; /* Tamaño de fuente reducido */
+            color: #6c757d;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .time-value {
+            font-size: 2.2rem; /* Tamaño de fuente reducido */
+            font-weight: 800;
+            color: #3498db; /* Azul principal para el tiempo activo */
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            line-height: 1;
+        }
+
+        .time-value span {
+            font-size: 1.1rem; /* Tamaño de "días" reducido */
+            font-weight: 500;
+            margin-left: 6px;
+            color: #5faee3;
+        }
+
+        .time-completed {
+            color: #5cb85c; /* Verde para tiempo completado */
+        }
+
+        .time-expired {
+            color: #dc3545; /* Rojo para tiempo vencido */
+        }
+
+        /* Botones flotantes mejorados con animaciones */
+        .floating-btn-container {
+            position: fixed;
+            bottom: 25px; /* Más cerca del borde */
+            right: 25px; /* Más cerca del borde */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            z-index: 1000;
+        }
+
+        .action-btn {
+            background: linear-gradient(45deg, #3498db, #2980b9); /* Gradiente azul para botones */
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            width: 50px; /* Tamaño reducido */
+            height: 50px;
+            font-size: 1.4rem; /* Icono más pequeño */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.2); /* Sombra más suave */
+            margin-bottom: 12px; /* Espacio reducido */
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Transición elástica ligeramente más rápida */
+            opacity: 0;
+            transform: scale(0.7) translateY(20px); /* Menos desplazamiento inicial */
+            pointer-events: none;
+        }
+
+        .action-btn:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .action-btn.show {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.08) rotate(3deg); /* Efecto de escala y rotación más sutil */
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            background: linear-gradient(45deg, #2980b9, #3498db); /* Invertir gradiente al hover */
+        }
+
+        /* Colores específicos para los botones de acción (complementarios al azul) */
+        .btn-add { background: linear-gradient(45deg, #28a745, #218838); } /* Verde para "Agregar" */
+        .btn-add:hover { background: linear-gradient(45deg, #218838, #28a745); }
+
+        .btn-edit { background: linear-gradient(45deg, #ffc107, #e0a800); } /* Amarillo/Naranja para "Editar" */
+        .btn-edit:hover { background: linear-gradient(45deg, #e0a800, #ffc107); }
+
+        .btn-delete { background: linear-gradient(45deg, #dc3545, #c82333); } /* Rojo para "Eliminar" */
+        .btn-delete:hover { background: linear-gradient(45deg, #c82333, #dc3545); }
+
+
+        .main-floating-btn {
+            background: linear-gradient(45deg, #2c3e50, #34495e); /* Gradiente gris azulado oscuro */
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            width: 60px; /* Tamaño reducido */
+            height: 60px;
+            font-size: 1.6rem; /* Icono más pequeño */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .main-floating-btn:hover {
+            background: linear-gradient(45deg, #34495e, #2c3e50); /* Invertir gradiente al hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+            transform: rotate(135deg) scale(1.03); /* Rotación y ligera escala más sutil */
+        }
+
+        /* Media Queries para responsividad (ajustadas a los nuevos tamaños) */
+        @@media (max-width: 768px) {
+            .container {
+                max-width: 100%;
+                padding: 0 15px;
+            }
+
+            .dashboard-card {
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .card-header {
+                padding: 1rem 1.2rem;
+            }
+
+            .card-title {
+                font-size: 1.4rem;
+            }
+
+            .card-title .fas {
+                font-size: 1.6rem;
+            }
+
+            .goal-card {
+                padding: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            .goal-title {
+                font-size: 1.2rem;
+            }
+
+            .goal-status {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.7rem;
+            }
+
+            .goal-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+
+            .detail-item {
+                padding: 0.8rem 1rem;
+            }
+
+            .detail-label {
+                font-size: 0.8rem;
+            }
+
+            .detail-value {
+                font-size: 0.95rem;
+            }
+
+            .time-container {
+                padding: 1rem;
+            }
+
+            .time-label {
+                font-size: 0.8rem;
+            }
+
+            .time-value {
+                font-size: 2rem;
+            }
+
+            .time-value span {
+                font-size: 0.9rem;
+            }
+
+            .floating-btn-container {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .action-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+                margin-bottom: 10px;
+            }
+
+            .main-floating-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h1 class="card-title"><i class="fas fa-bullseye"></i>Mis Metas</h1>
+            </div>
+            <div class="card-body p-4">
+                @Html.AntiForgeryToken()
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                        @TempData["SuccessMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                @if (Model.Count == 0)
+                {
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="empty-title">No tienes metas establecidas</h3>
+                        <p class="empty-text">Comienza tu viaje de transformación creando una nueva meta para alcanzar tus objetivos fitness</p>
+                    </div>
+                }
+
+                @foreach (var meta in Model)
+                {
+                    var fechaInicio = DateTime.Now;
+                    var fechaObjetivo = meta.FechaObjetivo;
+                    var diasTotales = (fechaObjetivo - fechaInicio).TotalDays;
+                    var diasTranscurridos = (DateTime.Now - fechaInicio).TotalDays;
+                    var diasRestantes = (fechaObjetivo - DateTime.Now).TotalDays;
+                    var porcentajeCompletado = Math.Min(100, Math.Max(0, (diasTranscurridos / diasTotales) * 100));
+                    var estadoMeta = diasRestantes <= 0 ? (diasRestantes < -7 ? "expired" : "completed") : "active";
+
+                    <div class="goal-card">
+                        <div class="goal-header">
+                            <h3 class="goal-title">@meta.MetaPrincipal</h3>
+                            <span class="goal-status status-@estadoMeta">
+                                @if (estadoMeta == "active")
+                                {<text>EN PROGRESO</text>}
+                                @if (estadoMeta == "completed")
+                                {<text>COMPLETADA</text>}
+                                @if (estadoMeta == "expired")
+                                {<text>VENCIDA</text>}
+                            </span>
+                        </div>
+
+                        <div class="goal-grid">
+                            <div class="detail-item">
+                                <div class="detail-label"><i class="fas fa-user"></i> Mi cuerpo actual</div>
+                                <div class="detail-value">@meta.CuerpoActual</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label"><i class="fas fa-user-astronaut"></i> Cuerpo deseado</div>
+                                <div class="detail-value">@meta.CuerpoDeseado</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label"><i class="far fa-calendar-alt"></i> Fecha inicio</div>
+                                <div class="detail-value">@fechaInicio.ToString("dd/MM/yyyy")</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label"><i class="far fa-calendar-check"></i> Fecha objetivo</div>
+                                <div class="detail-value">@meta.FechaObjetivo.ToString("dd/MM/yyyy")</div>
+                            </div>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-label"><i class="fas fa-info-circle"></i> Descripción</div>
+                            <div class="detail-value">@meta.Descripción</div>
+                        </div>
+
+                        <div class="time-container">
+                            <div class="time-label">TIEMPO RESTANTE</div>
+                            <div class="time-value @(estadoMeta == "completed" ? "time-completed" : estadoMeta == "expired" ? "time-expired" : "")" id="countdown-@meta.Id">
+                                @if (diasRestantes > 0)
+                                {
+                                    @Math.Ceiling(diasRestantes) <span>días</span>
+                                }
+                                else if (estadoMeta == "completed")
+                                {
+                                    <span>¡COMPLETADA!</span>
+                                }
+                                else
+                                {
+                                    <span>VENCIDA</span>
+                                }
+                            </div>
+                        </div>
+
+                        @if (diasRestantes > 0 && diasRestantes <= 7)
+                        {
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-circle"></i> ¡Meta cerca! Solo @Math.Ceiling(diasRestantes) días restantes.
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones flotantes mejorados -->
+    <div class="floating-btn-container">
+        <button class="action-btn btn-add" id="addBtn" onclick="window.location.href='@Url.Action("Metas", "Metas")'" title="Agregar Meta">
+            <i class="fas fa-plus"></i>
+        </button>
+        @if (Model.Count > 0)
+        {
+            <!--<button class="action-btn btn-diet" id="dietBtn" onclick="window.location.href='@Url.Action("AgregarDieta", "Dietas", new { metaId = Model.First().Id })'" title="Agregar Dieta">
+                <i class="fas fa-utensils"></i>
+            </button>-->
+
+            <button class="action-btn btn-edit" id="editBtn" onclick="window.location.href='@Url.Action("Edit", "Metas", new { id = Model.First().Id })'" title="Editar Meta">
+                <i class="fas fa-pencil-alt"></i>
+            </button>
+            <button class="action-btn btn-delete" id="deleteBtn" onclick="if(confirm('¿Estás seguro de eliminar esta meta?')) window.location.href='@Url.Action("Delete", "Metas", new { id = Model.First().Id })'" title="Eliminar Meta">
+                <i class="fas fa-trash"></i>
+            </button>
+        }
+        <button class="main-floating-btn" id="mainFloatingBtn">
+            <i class="fas fa-ellipsis-v"></i>
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Actualizar contadores de tiempo en tiempo real
+        function updateCountdowns() {
+            @foreach (var meta in Model)
+            {
+                @:const fechaObjetivo_@(meta.Id) = new Date("@meta.FechaObjetivo.ToString("yyyy-MM-dd")");
+                @:const countdownElement_@(meta.Id) = document.getElementById('countdown-@meta.Id');
+                @:
+                @:function updateCountdown_@(meta.Id)() {
+                @:    const ahora = new Date();
+                @:    const diff = fechaObjetivo_@(meta.Id) - ahora;
+                @:
+                @:    if (diff > 0) {
+                @:        const dias = Math.ceil(diff / (1000 * 60 * 60 * 24));
+                @:        countdownElement_@(meta.Id).innerHTML = dias + ' <span>días</span>';
+                @:        countdownElement_@(meta.Id).className = 'time-value';
+                @:    } else if (diff > -7 * 24 * 60 * 60 * 1000) {
+                @:        countdownElement_@(meta.Id).innerHTML = '¡COMPLETADA!';
+                @:        countdownElement_@(meta.Id).className = 'time-value time-completed';
+                @:    } else {
+                @:        countdownElement_@(meta.Id).innerHTML = 'VENCIDA';
+                @:        countdownElement_@(meta.Id).className = 'time-value time-expired';
+                @:    }
+                @:}
+                @:
+                @:updateCountdown_@(meta.Id)();
+                @:setInterval(updateCountdown_@(meta.Id), 1000 * 60 * 60); // Actualizar cada hora
+            }
+        }
+
+        // Control del menú flotante mejorado
+        document.addEventListener("DOMContentLoaded", function() {
+            updateCountdowns();
+
+            const mainBtn = document.getElementById('mainFloatingBtn');
+            const addBtn = document.getElementById('addBtn');
+            const dietBtn = document.getElementById('dietBtn'); // Este puede ser null si no existe en el HTML por el if
+            const editBtn = document.getElementById('editBtn'); // Este puede ser null
+            const deleteBtn = document.getElementById('deleteBtn'); // Este puede ser null
+
+            let isMenuOpen = false;
+
+            mainBtn.addEventListener('click', function() {
+                isMenuOpen = !isMenuOpen;
+
+                if (isMenuOpen) {
+                    mainBtn.innerHTML = '<i class="fas fa-times"></i>';
+                    mainBtn.style.transform = 'rotate(90deg)';
+
+                    // Mostrar botones con delay para efecto cascada
+                    // Se usa ?. para llamar a classList.add solo si el elemento existe
+                    setTimeout(() => addBtn.classList.add('show'), 50);
+                    setTimeout(() => dietBtn?.classList.add('show'), 100);
+                    setTimeout(() => editBtn?.classList.add('show'), 150);
+                    setTimeout(() => deleteBtn?.classList.add('show'), 200);
+                } else {
+                    mainBtn.innerHTML = '<i class="fas fa-ellipsis-v"></i>';
+                    mainBtn.style.transform = 'rotate(0deg)';
+
+                    // Ocultar botones
+                    // Se usa ?. para llamar a classList.remove solo si el elemento existe
+                    addBtn.classList.remove('show');
+                    dietBtn?.classList.remove('show');
+                    editBtn?.classList.remove('show');
+                    deleteBtn?.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

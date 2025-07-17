@@ -1,0 +1,75 @@
+﻿@model RunGymFront.Models.Ejercicios
+
+@{
+    // Este archivo de vista utiliza un diseño compartido (_Layout.cshtml).
+    // Asegúrate de que _Layout.cshtml incluye las referencias a Bootstrap (CSS y JS)
+    // y Font Awesome para los estilos e iconos.
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Agregar Nuevo Ejercicio"; // Título específico para esta vista
+}
+
+<title>@ViewData["Title"]</title>
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Agregar Nuevo Ejercicio</h2>
+
+    <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            @*
+                Formulario para agregar un nuevo ejercicio.
+                Utiliza Tag Helpers de ASP.NET Core MVC para un código más limpio.
+                - asp-action: La acción del controlador a la que se enviará el formulario (método POST).
+                - asp-controller: El controlador que manejará la acción.
+                - method: El método HTTP para el envío del formulario.
+                - enctype: Obligatorio si planeas manejar la subida de archivos (aunque aquí usamos URL por defecto).
+            *@
+            <form asp-action="Agregar" asp-controller="AdminEjercicios" method="post" enctype="multipart/form-data">
+                @* Token de seguridad para prevenir ataques de Cross-Site Request Forgery (CSRF) *@
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    @* Label para el campo Categoria, usando asp-for para vincularlo al modelo *@
+                    <label asp-for="Categoria" class="form-label"></label>
+                    @* Input para la Categoria, usando asp-for para vincularlo al modelo y form-control para estilos Bootstrap *@
+                    <input asp-for="Categoria" class="form-control" placeholder="Ejemplo: Flexiones" />
+                    @* Mensaje de validación para Categoria, si hay errores *@
+                    <span asp-validation-for="Categoria" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    @* Label para la URL de la Imagen, con un texto amigable *@
+                    <label asp-for="ImagenURL" class="form-label">URL de la Imagen</label>
+                    @* Input para la ImagenURL, con un placeholder de ejemplo *@
+                    <input asp-for="ImagenURL" class="form-control" placeholder="https://ejemplo.com/imagen.jpg" />
+                    @* Mensaje de validación para ImagenURL *@
+                    <span asp-validation-for="ImagenURL" class="text-danger"></span>
+                </div>
+
+                @*
+                    Si en el futuro deseas implementar la subida de archivos de imagen en lugar de URLs,
+                    puedes descomentar el siguiente bloque y comentar el input de ImagenURL de arriba.
+                    Recuerda que necesitarías un controlador que maneje la subida de archivos.
+                *@
+                @*
+                <div class="mb-3">
+                    <label for="imageFile" class="form-label">Subir Imagen</label>
+                    <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*" />
+                    <span class="text-muted">Max. 2MB. Formatos permitidos: JPG, PNG, GIF.</span>
+                </div>
+                *@
+
+                <div class="d-flex justify-content-center gap-3 mt-4">
+                    @* Botón para enviar el formulario y guardar el ejercicio *@
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                    @* Botón para cancelar y regresar a la vista de índice *@
+                    <a asp-action="Index" asp-controller="AdminEjercicios" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

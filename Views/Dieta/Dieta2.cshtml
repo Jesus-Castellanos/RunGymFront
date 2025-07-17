@@ -1,0 +1,131 @@
+﻿@model List<RunGymFront.Models.Dieta>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="nutrition-plan maintenance-plan">
+
+    <div class="plan-header">
+        <div class="title-group">
+            <h2>Plan Equilibrado</h2>
+            <p class="subtitle">Mantenimiento y recomposición corporal</p>
+        </div>
+        <div class="calorie-display">
+            <span class="calorie-value">2,200-2,500</span>
+            <span class="calorie-unit">kcal/día</span>
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+        </svg>
+        <span>Este es un ejemplo de dieta balanceada. Puedes explorar otras opciones que se ajusten mejor a tus gustos y necesidades.</span>
+    </div>
+
+    <div class="nutrition-grid">
+        <div class="macros-card">
+            <h3>Distribución de Macronutrientes</h3>
+            <div class="macros">
+                <div class="macro">
+                    <div class="macro-progress" style="--percentage: 0.4; --color: #2980B9;"></div>
+                    <span class="value">40%</span>
+                    <span class="label">Carbohidratos</span>
+                    <span class="gramos">220-250g</span>
+                </div>
+                <div class="macro">
+                    <div class="macro-progress" style="--percentage: 0.3; --color: #2980B9;"></div>
+                    <span class="value">30%</span>
+                    <span class="label">Proteínas</span>
+                    <span class="gramos">165-188g</span>
+                </div>
+                <div class="macro">
+                    <div class="macro-progress" style="--percentage: 0.3; --color: #2980B9;"></div>
+                    <span class="value">30%</span>
+                    <span class="label">Grasas</span>
+                    <span class="gramos">73-83g</span>
+                </div>
+            </div>
+
+            <div class="micronutrients-section">
+                <h3>Micronutrientes Clave</h3>
+                <div class="micronutrients-grid">
+                    <div class="micronutrient">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3082/3082035.png" alt="Vitamina D">
+                        <span>Vitamina D</span>
+                    </div>
+                    <div class="micronutrient">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3082/3082053.png" alt="Hierro">
+                        <span>Hierro</span>
+                    </div>
+                    <div class="micronutrient">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3082/3082041.png" alt="Magnesio">
+                        <span>Magnesio</span>
+                    </div>
+                    <div class="micronutrient">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3082/3082049.png" alt="Calcio">
+                        <span>Calcio</span>
+                    </div>
+                    <div class="micronutrient">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3082/3082045.png" alt="Zinc">
+                        <span>Zinc</span>
+                    </div>
+                    <div class="micronutrient">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3082/3082039.png" alt="Omega-3">
+                        <span>Omega-3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="profile-info">
+        @if (Model != null && Model.Any())
+        {
+            @Html.AntiForgeryToken()
+            foreach (var dieta in Model)
+            {
+                <div class="food-card">
+                    <h3>Menú de Ejemplo</h3>
+                    <div class="meal">
+                        <span class="time">Desayuno (550 kcal)</span>
+                        <p style=" color: #000000; ">@dieta.Desayuno</p>
+                        <div class="meal-micronutrients">
+                            <span class="micronutrient-tag">Calcio</span>
+                            <span class="micronutrient-tag">Vitamina D</span>
+                            <span class="micronutrient-tag">Antioxidantes</span>
+                        </div>
+                    </div>
+                    <div class="meal">
+                        <span class="time">Almuerzo (700 kcal)</span>
+                        <p style=" color: #000000; ">@dieta.Almuerzo</p>
+                        <div class="meal-micronutrients">
+                            <span class="micronutrient-tag">Omega-3</span>
+                            <span class="micronutrient-tag">Hierro</span>
+                            <span class="micronutrient-tag">Vitamina E</span>
+                        </div>
+                    </div>
+                    <div class="meal">
+                        <span class="time">Cena (650 kcal)</span>
+                        <p style=" color: #000000; ">@dieta.Cena</p>
+                        <div class="meal-micronutrients">
+                            <span class="micronutrient-tag">Proteína</span>
+                            <span class="micronutrient-tag">Fibra</span>
+                            <span class="micronutrient-tag">Vitamina K</span>
+                        </div>
+                    </div>
+                    <div class="meal">
+                        <span class="time">Snacks (500 kcal)</span>
+                        <p style=" color: #000000; ">@dieta.Snacks</p>
+                        <div class="meal-micronutrients">
+                            <span class="micronutrient-tag">Proteína</span>
+                            <span class="micronutrient-tag">Vitamina A</span>
+                            <span class="micronutrient-tag">Zinc</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+        <link rel="stylesheet" href="~/Content/css/Dietas/Dieta2.css" />

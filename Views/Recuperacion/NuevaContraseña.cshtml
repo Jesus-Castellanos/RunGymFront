@@ -1,0 +1,413 @@
+﻿@model RunGymFront.Models.RecuperarContraseña
+@{
+    ViewBag.Title = "Nueva Contraseña";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nueva Contraseña | RunGym</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6C63FF;
+            --secondary-color: #4D44DB;
+            --success-color: #28a745;
+            --danger-color: #FF4757;
+            --light-color: #F8F9FA;
+            --dark-color: #343A40;
+            --text-color: #495057;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .password-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 480px;
+            overflow: hidden;
+            transform: translateY(0);
+            transition: var(--transition);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .password-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .password-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+            opacity: 0.3;
+        }
+
+        .password-header i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .password-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .password-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .password-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 45px 14px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            transition: var(--transition);
+            background-color: #f8f9fa;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+            background-color: white;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 40px;
+            color: #adb5bd;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .password-toggle:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .password-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .password-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .password-footer a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-size: 14px;
+            border-left: 4px solid transparent;
+        }
+
+        .alert-danger {
+            background-color: #fff5f5;
+            color: var(--danger-color);
+            border-left-color: var(--danger-color);
+        }
+
+        .text-danger {
+            color: var(--danger-color);
+            font-size: 13px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            width: 100%;
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            transition: var(--transition);
+        }
+
+        /* Responsive adjustments */
+        .media (max-width: 576px) {
+            .password-container {
+                max-width: 100%;
+            }
+
+            .password-header {
+                padding: 25px;
+            }
+
+            .password-body {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="password-container">
+        <div class="password-header">
+            <i class="fas fa-lock"></i>
+            <h2>Establecer Nueva Contraseña</h2>
+            <p>Ingresa y confirma tu nueva contraseña</p>
+        </div>
+
+        <div class="password-body">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                </div>
+            }
+
+            @using (Html.BeginForm("NuevaContraseña", "Recuperacion", FormMethod.Post, new { @id = "passwordForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.Codigo)
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NuevaContraseña)
+                    @Html.PasswordFor(m => m.NuevaContraseña, new { @class = "form-control", placeholder = "Ingresa tu nueva contraseña", id = "newPassword" })
+                    <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                    <div class="password-strength">
+                        <div class="strength-bar" id="strengthBar"></div>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.NuevaContraseña, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ConfirmarContraseña)
+                    @Html.PasswordFor(m => m.ConfirmarContraseña, new { @class = "form-control", placeholder = "Confirma tu nueva contraseña", id = "confirmPassword" })
+                    <i class="fas fa-eye password-toggle" id="toggleConfirmPassword"></i>
+                    <div id="passwordMatch" class="text-danger" style="display: none;">Las contraseñas no coinciden</div>
+                    @Html.ValidationMessageFor(m => m.ConfirmarContraseña, "", new { @class = "text-danger" })
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span class="submit-text">Cambiar Contraseña</span>
+                    <i class="fas fa-spinner fa-spin" id="spinner" style="display: none;"></i>
+                </button>
+            }
+
+            <div class="password-footer">
+                <p>¿No recibiste el código? <a href="@Url.Action("RecuperarContraseña", "Recuperacion")">Reenviar código</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        const togglePassword = document.querySelector('#togglePassword');
+        const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
+        const password = document.querySelector('#newPassword');
+        const confirmPassword = document.querySelector('#confirmPassword');
+        const passwordMatch = document.querySelector('#passwordMatch');
+        const submitBtn = document.querySelector('#submitBtn');
+        const strengthBar = document.querySelector('#strengthBar');
+
+        togglePassword.addEventListener('click', function () {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        toggleConfirmPassword.addEventListener('click', function () {
+            const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPassword.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // Password strength checker
+        password.addEventListener('input', function () {
+            const value = this.value;
+            const strength = calculateStrength(value);
+            updateStrengthBar(strength);
+            checkPasswordsMatch();
+        });
+
+        confirmPassword.addEventListener('input', checkPasswordsMatch);
+
+        function calculateStrength(password) {
+            let strength = 0;
+
+            // Length check
+            if (password.length > 0) strength += 10;
+            if (password.length >= 8) strength += 20;
+            if (password.length >= 12) strength += 20;
+
+            // Character variety
+            if (/[A-Z]/.test(password)) strength += 15;
+            if (/[0-9]/.test(password)) strength += 15;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+
+            return Math.min(strength, 100);
+        }
+
+        function updateStrengthBar(strength) {
+            strengthBar.style.width = strength + '%';
+
+            if (strength < 40) {
+                strengthBar.style.backgroundColor = '#FF4757';
+            } else if (strength < 70) {
+                strengthBar.style.backgroundColor = '#FFA502';
+            } else {
+                strengthBar.style.backgroundColor = '#2ED573';
+            }
+        }
+
+        function checkPasswordsMatch() {
+            if (password.value && confirmPassword.value) {
+                if (password.value !== confirmPassword.value) {
+                    passwordMatch.style.display = 'block';
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = '0.7';
+                } else {
+                    passwordMatch.style.display = 'none';
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '1';
+                }
+            } else {
+                passwordMatch.style.display = 'none';
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.7';
+            }
+        }
+
+        // Form submission
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            const spinner = document.getElementById('spinner');
+            const submitText = document.querySelector('.submit-text');
+
+            spinner.style.display = 'inline-block';
+            submitText.textContent = 'Procesando...';
+            submitBtn.disabled = true;
+        });
+    </script>
+</body>
+</html>

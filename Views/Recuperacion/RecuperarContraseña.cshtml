@@ -1,0 +1,430 @@
+﻿@model RunGymFront.Models.RecuperarContraseña
+@{
+    ViewBag.Title = "Recuperar Contraseña";
+    Layout = null;
+    var mensaje = TempData["Mensaje"] as string;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recuperar Contraseña | RunGym</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6C63FF;
+            --secondary-color: #4D44DB;
+            --accent-color: #FF7D4D;
+            --light-color: #F8F9FA;
+            --dark-color: #343A40;
+            --text-color: #495057;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .recovery-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 480px;
+            overflow: hidden;
+            transform: translateY(0);
+            transition: var(--transition);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .keyframes fadeInUp {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .recovery-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .recovery-header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+                opacity: 0.3;
+            }
+
+        .recovery-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .recovery-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .recovery-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .recovery-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            transition: var(--transition);
+            background-color: #f8f9fa;
+        }
+
+            .form-control:focus {
+                border-color: var(--primary-color);
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+                background-color: white;
+            }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-submit:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
+            }
+
+            .btn-submit:active {
+                transform: translateY(0);
+            }
+
+            .btn-submit::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: 0.5s;
+            }
+
+            .btn-submit:hover::before {
+                left: 100%;
+            }
+
+        .recovery-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+            .recovery-footer a {
+                color: var(--primary-color);
+                text-decoration: none;
+                font-weight: 500;
+                transition: var(--transition);
+            }
+
+                .recovery-footer a:hover {
+                    text-decoration: underline;
+                    color: var(--secondary-color);
+                }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+            .modal-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+        .modal-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 90%;
+            max-width: 500px;
+            transform: translateY(-20px);
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            position: relative;
+        }
+
+            .modal-header::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+                opacity: 0.3;
+            }
+
+        .modal-title {
+            font-weight: 600;
+            position: relative;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+
+        .modal-body {
+            padding: 25px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .modal-footer {
+            padding: 15px 25px;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-modal {
+            padding: 8px 20px;
+            border-radius: var(--border-radius);
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-modal-close {
+            background: #f1f1f1;
+            color: var(--text-color);
+        }
+
+            .btn-modal-close:hover {
+                background: #e9ecef;
+            }
+
+        /* Responsive adjustments */
+        .media (max-width: 576px) {
+            .recovery-container
+
+        {
+            max-width: 100%;
+        }
+
+        .recovery-header {
+            padding: 25px;
+        }
+
+        .recovery-body {
+            padding: 25px;
+        }
+        }
+    </style>
+</head>
+<body>
+    <!-- Vista principal -->
+    <div class="recovery-container">
+        <div class="recovery-header">
+            <div class="recovery-icon">
+                <i class="fas fa-key"></i>
+            </div>
+            <h2 class="recovery-title">Recuperar Contraseña</h2>
+            <p class="recovery-subtitle">Ingresa tu correo electrónico para recibir un código de verificación</p>
+        </div>
+
+        <div class="recovery-body">
+            <form method="post" action="@Url.Action("EnviarRecuperacion", "Recuperacion")" id="recoveryForm">
+                <div class="form-group">
+                    <label for="email" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="email" name="email" required placeholder="ejemplo@correo.com" />
+                    <i class="fas fa-envelope" style="position: absolute; right: 15px; top: 40px; color: #adb5bd;"></i>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span class="submit-text">Enviar Código</span>
+                    <i class="fas fa-spinner fa-spin" id="spinner" style="display: none;"></i>
+                </button>
+            </form>
+
+            <div class="recovery-footer">
+                <p>¿Recuperaste tu contraseña? <a href="@Url.Action("Login", "Login")">Iniciar sesión</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal personalizado -->
+    <div class="modal-overlay" id="mensajeModal" style="@(string.IsNullOrEmpty(mensaje) ? "display: none;" : "")">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Recuperación de Contraseña</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>@mensaje</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-modal-close" id="confirmCloseModal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mostrar modal si hay mensaje
+        document.addEventListener("DOMContentLoaded", function() {
+            var mensaje = "@mensaje";
+            if (mensaje && mensaje.length > 0) {
+                document.getElementById('mensajeModal').classList.add('active');
+            }
+        });
+
+        // Cerrar modal
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('mensajeModal').classList.remove('active');
+        });
+
+        document.getElementById('confirmCloseModal').addEventListener('click', function() {
+            document.getElementById('mensajeModal').classList.remove('active');
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('mensajeModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        // Animación de envío del formulario
+        document.getElementById('recoveryForm').addEventListener('submit', function(e) {
+            var spinner = document.getElementById('spinner');
+            var submitText = document.querySelector('.submit-text');
+
+            spinner.style.display = 'inline-block';
+            submitText.textContent = 'Enviando...';
+            this.querySelector('button[type="submit"]').disabled = true;
+        });
+
+        // Efecto hover para el botón de submit
+        var submitBtn = document.getElementById('submitBtn');
+
+        submitBtn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 6px 20px rgba(108, 99, 255, 0.4)';
+        });
+
+        submitBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 4px 15px rgba(108, 99, 255, 0.3)';
+        });
+    </script>
+</body>
+</html>

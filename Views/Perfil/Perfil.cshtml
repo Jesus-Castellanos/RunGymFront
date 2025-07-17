@@ -1,0 +1,327 @@
+﻿@model List<RunGymFront.Models.Usuarios>
+@{
+    ViewBag.Title = "Perfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .profile-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .profile-card {
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        border: none;
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        background-color: #4361ee;
+        color: white;
+        border-radius: 15px 15px 0 0 !important;
+        padding: 20px;
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+
+    .profile-section {
+        padding: 30px;
+    }
+
+    .profile-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .info-item {
+        margin-bottom: 15px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .info-label {
+        font-weight: 600;
+        color: #4361ee;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+    }
+
+        .info-label i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+    .info-value {
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .btn-edit {
+        background-color: #4361ee;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s;
+    }
+
+        .btn-edit:hover {
+            background-color: #3a56d4;
+            transform: translateY(-2px);
+        }
+
+    .btn-delete {
+        background-color: #dc3545;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s;
+    }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+    .empty-profile {
+        text-align: center;
+        padding: 50px;
+        color: #6c757d;
+    }
+
+        .empty-profile i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #dee2e6;
+        }
+
+    .alert {
+        border-radius: 8px;
+    }
+
+    /* Estilo para el botón Cancelar en el modal */
+    .modal-footer .btn-secondary {
+        background-color: #6c757d; /* Color gris de Bootstrap */
+        color: white;
+        border-color: #6c757d;
+        /* Puedes añadir hover si quieres, similar a .btn-edit:hover */
+    }
+
+        .modal-footer .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    /* Estilo para el botón Sí, Eliminar en el modal */
+    .modal-footer .btn-danger {
+        background-color: #dc3545; /* Color rojo de Bootstrap */
+        color: white;
+        border-color: #dc3545;
+        /* Puedes añadir hover si quieres, similar a .btn-delete:hover */
+    }
+
+        .modal-footer .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+    /* Asegúrate de que el botón de cerrar del modal sea visible en tema oscuro */
+    .modal-header .btn-close-white {
+        filter: invert(1) grayscale(100%) brightness(200%); /* Hace que el icono X sea blanco */
+    }
+
+    /* O si tienes un tema oscuro global, podrías necesitar esto para el contenido del modal */
+    .modal-content {
+        background-color: #343a40; /* Un color oscuro para el fondo del modal */
+        color: #f8f9fa; /* Color de texto claro para el contenido del modal */
+    }
+
+    .modal-body {
+        color: #f8f9fa; /* Asegura que el texto del cuerpo del modal sea claro */
+    }
+
+    .modal-title {
+        color: white; /* Asegura que el título del modal sea blanco */
+    }
+    .modal-backdrop.show {
+        background-color: #f8f9fa; /* Más oscuro */
+        display:none;
+    }
+
+</style>
+
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="card-header">
+            <i class="fas fa-user-circle me-2"></i>Mi Perfil
+        </div>
+
+        <div class="profile-section">
+            @Html.AntiForgeryToken()
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            @if (Model.Count == 0)
+            {
+                <div class="empty-profile">
+                    <i class="fas fa-user-slash"></i>
+                    <h3>No se encontró información del perfil</h3>
+                    <p>Parece que no hay datos disponibles para mostrar.</p>
+                </div>
+            }
+            else
+            {
+                <div class="profile-info">
+                    @foreach (var usuario in Model)
+                    {
+                        <!-- Personal Information -->
+                        <div class="info-group">
+                            <h5 class="mb-3"><i class="fas fa-id-card me-2"></i>Información Personal</h5>
+                            <div class="info-item">
+                                <div class="info-label"><i class="fas fa-user"></i>Nombre completo</div>
+                                <div class="info-value">@usuario.Nombre @usuario.Apellido</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label"><i class="fas fa-id-card"></i>Documento</div>
+                                <div class="info-value">@usuario.TipoDocumento: @usuario.Documento</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label"><i class="fas fa-birthday-cake"></i>Fecha de nacimiento</div>
+                                <div class="info-value">@usuario.FechaNacimiento.ToString("dd/MM/yyyy")</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label"><i class="fas fa-venus-mars"></i>Género</div>
+                                <div class="info-value">@usuario.Genero</div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="info-group">
+                            <h5 class="mb-3"><i class="fas fa-address-book me-2"></i>Contacto</h5>
+                            <div class="info-item">
+                                <div class="info-label"><i class="fas fa-envelope"></i>Correo electrónico</div>
+                                <div class="info-value">@usuario.Correo</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label"><i class="fas fa-mobile-alt"></i>Celular</div>
+                                <div class="info-value">@usuario.Celular</div>
+                            </div>
+                        </div>
+
+                        <!-- Health Information -->
+                        <div class="info-group">
+                            <h5 class="mb-3"><i class="fas fa-heartbeat me-2"></i>Datos de Salud</h5>
+                            <div class="info-item">
+                                <div class="info-label"><i class="fas fa-weight"></i>Peso</div>
+                                <div class="info-value">@usuario.Peso kg</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label"><i class="fas fa-ruler-vertical"></i>Altura</div>
+                                <div class="info-value">@usuario.Altura cm</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label"><i class="fas fa-bed"></i>Horas de sueño</div>
+                                <div class="info-value">@usuario.HorasSueno horas/día</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label"><i class="fas fa-tint"></i>Consumo de agua</div>
+                                <div class="info-value">@usuario.ConsumoAgua litros/día</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="action-buttons">
+                    <a href="@Url.Action("Editar", "Perfil")" class="btn-edit">
+                        <i class="fas fa-edit me-2"></i>Editar Perfil
+                    </a>
+                    <button type="button" class="btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="fas fa-trash-alt me-2"></i>Eliminar Cuenta
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminación</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro que deseas eliminar tu cuenta permanentemente?</p>
+                <p class="text-danger"><strong>Esta acción no se puede deshacer y se perderán todos tus datos.</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                @using (Html.BeginForm("EliminarConfirmado", "Perfil", FormMethod.Post, new { @class = "d-inline" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash-alt me-2"></i>Sí, Eliminar
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        var btn = document.getElementById('confirmDeleteBtn');
+        if (btn) {
+            btn.addEventListener('click', function () {
+                document.getElementById('deleteForm').submit();
+            });
+        }
+
+        // Display any alerts
+        if (document.querySelector('.alert')) {
+            setTimeout(function () {
+                var alert = bootstrap.Alert.getOrCreateInstance(document.querySelector('.alert'));
+                alert.close();
+            }, 5000);
+        }
+    });
+</script>

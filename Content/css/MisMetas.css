@@ -1,0 +1,344 @@
+﻿:root {
+    --primary: #4a6fa5;
+    --primary-light: #6b8cbc;
+    --primary-dark: #3a5a8f;
+    --secondary: #6bb39b;
+    --success: #5cb85c;
+    --warning: #f0ad4e;
+    --danger: #d9534f;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --gray: #6c757d;
+    --light-gray: #e9ecef;
+    --bg-color: #f5f7fa;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    color: var(--dark);
+    line-height: 1.6;
+}
+
+.dashboard-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    background: white;
+    margin-bottom: 2rem;
+}
+
+.card-header {
+    background: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-weight: 600;
+    color: var(--dark);
+    font-size: 1.75rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    letter-spacing: -0.5px;
+}
+
+    .card-title i {
+        color: var(--primary);
+        margin-right: 12px;
+        font-size: 1.4em;
+    }
+
+.goal-card {
+    border-radius: 10px;
+    background: rgb(255, 255, 255);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+    .goal-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 20px rgba(9, 201, 243, 1.881); /* sombra más brillante */
+        border-color: var(--primary); /* mantiene el borde fuerte */
+    }
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 25px rgba(6, 102, 245, 0.964);
+    }
+
+    50% {
+        box-shadow: 0 0 25px rgba(6, 102, 245, 0.964);
+    }
+
+    100% {
+        box-shadow: 0 0 25px rgba(6, 102, 245, 0.964);
+    }
+}
+
+.goal-card:hover {
+    animation: glow 1s ease-in-out infinite;
+    transform: translateY(-5px);
+    border-color: var(--primary);
+}
+
+.goal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.goal-title {
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--dark);
+    margin: 0;
+    flex-grow: 1;
+}
+
+.goal-status {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-left: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-active {
+    background-color: rgba(74, 111, 165, 0.1);
+    color: var(--primary);
+}
+
+.status-completed {
+    background-color: rgba(92, 184, 92, 0.1);
+    color: var(--success);
+}
+
+.status-expired {
+    background-color: rgba(217, 83, 79, 0.1);
+    color: var(--danger);
+}
+
+.goal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.detail-item {
+    margin-bottom: 1rem;
+}
+
+.detail-label {
+    font-size: 0.85rem;
+    color: var(--gray);
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+}
+
+    .detail-label i {
+        margin-right: 8px;
+        font-size: 0.9em;
+        color: var(--primary);
+    }
+
+.detail-value {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--dark);
+    line-height: 1.5;
+    padding-left: 1.6rem;
+}
+
+.time-container {
+    background: rgba(248, 249, 250, 0.8);
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+    margin-top: 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(5px);
+}
+
+.time-label {
+    font-size: 0.9rem;
+    color: var(--gray);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.time-value {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.time-completed {
+    color: var(--success);
+}
+
+.time-expired {
+    color: var(--danger);
+}
+
+/* Botón flotante mejorado */
+.floating-btn-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+    z-index: 1000;
+}
+
+.main-floating-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 15px rgba(74, 111, 165, 0.3);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+    .main-floating-btn:hover {
+        background: var(--primary-dark);
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(74, 111, 165, 0.4);
+    }
+
+.action-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+    .action-btn.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+.btn-add {
+    background: var(--primary);
+}
+
+.btn-edit {
+    background: var(--secondary);
+}
+
+.btn-delete {
+    background: var(--danger);
+}
+
+.btn-diet {
+    background: var(--success);
+}
+
+.empty-state {
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 3.5rem;
+    color: var(--light-gray);
+    margin-bottom: 1.5rem;
+    opacity: 0.5;
+}
+
+.empty-title {
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+}
+
+.empty-text {
+    color: var(--gray);
+    max-width: 450px;
+    margin: 0 auto 2rem;
+    font-size: 1.05rem;
+}
+
+.alert-warning {
+    background-color: rgba(240, 173, 78, 0.1);
+    border-left: 4px solid var(--warning);
+    color: #856404;
+    border-radius: 0 6px 6px 0;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+    .alert-warning i {
+        margin-right: 10px;
+        color: var(--warning);
+    }
+
+@media (max-width: 768px) {
+    .goal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+    }
+
+    .goal-title {
+        font-size: 1.2rem;
+    }
+
+    .floating-btn-container {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .main-floating-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+
+    .action-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+}

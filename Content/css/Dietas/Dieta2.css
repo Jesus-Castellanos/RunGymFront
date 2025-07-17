@@ -1,0 +1,284 @@
+﻿
+.nutrition-plan {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.maintenance-plan {
+    background-color: #F0F9FF;
+    border-radius: 18px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    border: 1px solid #CCE7FF;
+    position: relative;
+    overflow: hidden;
+}
+
+    .maintenance-plan .plan-badge {
+        position: absolute;
+        top: 15px;
+        right: -30px;
+        background-color: #3498DB;
+        color: white;
+        padding: 5px 35px;
+        transform: rotate(45deg);
+        font-size: 12px;
+        font-weight: bold;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .maintenance-plan .plan-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #D4E6F1;
+    }
+
+    .maintenance-plan .title-group h2 {
+        color: #2874A6;
+        margin-bottom: 5px;
+        font-size: 1.8em;
+    }
+
+    .maintenance-plan .subtitle {
+        color: #3498DB;
+        font-weight: 500;
+        margin-top: 0;
+        font-size: 0.95em;
+    }
+
+    .maintenance-plan .calorie-display {
+        background-color: #D4E6F1;
+        border-radius: 12px;
+        padding: 10px 15px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .maintenance-plan .calorie-value {
+        font-size: 1.6em;
+        font-weight: bold;
+        color: #2874A6;
+        line-height: 1;
+    }
+
+    .maintenance-plan .calorie-unit {
+        font-size: 0.8em;
+        color: #3498DB;
+        font-weight: 500;
+    }
+
+    .maintenance-plan .disclaimer {
+        background-color: #D4E6F1;
+        padding: 12px 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 0.85em;
+        color: #1A5276;
+    }
+
+        .maintenance-plan .disclaimer svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: #2874A6;
+        }
+
+    .maintenance-plan .nutrition-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .maintenance-plan .macros-card,
+    .maintenance-plan .food-card {
+        background-color: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+
+    .maintenance-plan h3 {
+        color: #3498DB;
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 1.2em;
+        border-bottom: 1px dashed #AED6F1;
+        padding-bottom: 8px;
+    }
+
+    .maintenance-plan .macros {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .maintenance-plan .macro {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .maintenance-plan .macro-progress {
+        width: 80px;
+        height: 8px;
+        background-color: #D4E6F1;
+        border-radius: 4px;
+        position: relative;
+    }
+
+        .maintenance-plan .macro-progress::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: calc(var(--percentage) * 100%);
+            background-color: var(--color);
+            border-radius: 4px;
+        }
+
+    .maintenance-plan .macro .value {
+        font-weight: bold;
+        color: #2874A6;
+        width: 40px;
+        text-align: right;
+        font-size: 1.1em;
+    }
+
+    .maintenance-plan .macro .label {
+        color: #1A5276;
+        font-size: 0.95em;
+        flex-grow: 1;
+    }
+
+    .maintenance-plan .macro .gramos {
+        color: #7FB3D5;
+        font-size: 0.85em;
+        font-weight: 500;
+        width: 80px;
+        text-align: right;
+    }
+
+    .maintenance-plan .micronutrients-section {
+        margin-top: 25px;
+    }
+
+    .maintenance-plan .micronutrients-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .maintenance-plan .micronutrient {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .maintenance-plan .micronutrient img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .maintenance-plan .micronutrient span {
+            font-size: 0.8em;
+            color: #2874A6;
+            text-align: center;
+            font-weight: 500;
+        }
+
+    .maintenance-plan .meal {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #EAF2F8;
+    }
+
+        .maintenance-plan .meal:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+    .maintenance-plan .time {
+        font-weight: bold;
+        color: #2874A6;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.95em;
+    }
+
+    .maintenance-plan .meal p {
+        margin: 0 0 10px 0;
+        font-size: 0.95em;
+        color: #000000;
+        line-height: 1.5;
+    }
+
+    .maintenance-plan .meal-micronutrients {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .maintenance-plan .micronutrient-tag {
+        background-color: #EAF2F8;
+        color: #2874A6;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.75em;
+        font-weight: 500;
+    }
+
+.profile-info {
+    margin-top: 20px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .maintenance-plan .nutrition-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .maintenance-plan .micronutrients-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .maintenance-plan {
+        padding: 20px 15px;
+    }
+
+        .maintenance-plan .plan-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .maintenance-plan .macro {
+            flex-wrap: wrap;
+        }
+
+        .maintenance-plan .macro-progress {
+            width: 100%;
+        }
+
+        .maintenance-plan .micronutrients-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+}

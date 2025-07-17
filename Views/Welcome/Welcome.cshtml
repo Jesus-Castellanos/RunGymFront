@@ -1,0 +1,192 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNGYM - Transforma tu cuerpo</title>
+    <meta name="description" content="Programas de entrenamiento personalizados para alcanzar tus metas fitness">
+    <link rel="preload" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" as="style">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="~/images/Login/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://maxcdn.bootstrapcdn.com">
+    <link rel="stylesheet" href="~/Content/css/Welcome.css" />
+</head>
+<body>
+    <div id="particles-container"></div>
+
+    <main class="container-welcome">
+        <div class="logo-container">
+            <img src="~/images/Login/Logo.png" alt="RUNGYM Logo" class="logo img-fluid" width="180" height="180" loading="eager">
+        </div>
+
+        <h1 class="brand-title">RUNGYM</h1>
+        <p class="brand-slogan">Transforma tu cuerpo, supera tus límites</p>
+
+        <div class="button-container">
+            <a href="@Url.Action("Registro", "Registro")" class="btn btn-primary" aria-label="Crear mi programa de entrenamiento">
+                <span class="btn-icon">🏋️</span>
+                <span class="btn-text">COMENZAR MI TRANSFORMACIÓN</span>
+            </a>
+
+            <a href="@Url.Action("Login", "Login")" class="btn btn-secondary" aria-label="Acceder a mi cuenta">
+                <span class="btn-icon">🔑</span>
+                <span class="btn-text">ACCEDER A MI CUENTA</span>
+            </a>
+        </div>
+
+        <footer class="footer-text">
+            <p>
+                Al continuar, aceptas nuestros
+                <a href="#" id="open-terms">términos de uso</a> y nuestra
+                <a href="#" id="open-privacy">política de privacidad</a>
+            </p>
+            <p>¿Necesitas ayuda? <a href="@Url.Action("Contact", "Home")">Contáctanos</a></p>
+        </footer>
+    </main>
+
+    <!-- Modal: Términos de Uso -->
+    <div id="terms-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-terms">&times;</span>
+            <h2>Términos de Uso - RUNGYM</h2>
+            <p>Bienvenido a RUNGYM. Al acceder y utilizar nuestro servicio, aceptas cumplir con los siguientes términos y condiciones:</p>
+
+            <h3 style="color: var(--primary-light); margin-top: 1.5rem; font-size: 1.2rem;">1. Uso del Servicio</h3>
+            <ul>
+                <li>RUNGYM proporciona programas de entrenamiento personalizados basados en tus objetivos fitness.</li>
+                <li>Eres responsable de usar el servicio de manera adecuada y conforme a estas condiciones.</li>
+                <li>No está permitido compartir cuentas entre múltiples usuarios.</li>
+            </ul>
+
+            <h3 style="color: var(--primary-light); margin-top: 1.5rem; font-size: 1.2rem;">2. Responsabilidad</h3>
+            <ul>
+                <li>Consultar con un profesional médico antes de comenzar cualquier programa de ejercicio.</li>
+                <li>RUNGYM no se hace responsable por lesiones derivadas del uso incorrecto de las rutinas proporcionadas.</li>
+                <li>Eres responsable de ajustar la intensidad del ejercicio según tu condición física.</li>
+            </ul>
+
+            <h3 style="color: var(--primary-light); margin-top: 1.5rem; font-size: 1.2rem;">3. Propiedad Intelectual</h3>
+            <p>Todos los contenidos, diseños y programas de entrenamiento son propiedad exclusiva de RUNGYM y están protegidos por derechos de autor.</p>
+        </div>
+    </div>
+
+    <!-- Modal: Política de Privacidad -->
+    <div id="privacy-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-privacy">&times;</span>
+            <h2>Política de Privacidad - RUNGYM</h2>
+            <p>En RUNGYM valoramos y protegemos tu privacidad. Esta política explica cómo recopilamos, usamos y protegemos tu información personal.</p>
+
+            <h3 style="color: var(--primary-light); margin-top: 1.5rem; font-size: 1.2rem;">1. Información que Recopilamos</h3>
+            <ul>
+                <li>Datos personales básicos (nombre, email, edad, etc.) para crear tu perfil.</li>
+                <li>Información sobre tus objetivos fitness, medidas corporales y progreso.</li>
+                <li>Datos de uso de la plataforma para mejorar nuestro servicio.</li>
+            </ul>
+
+            <h3 style="color: var(--primary-light); margin-top: 1.5rem; font-size: 1.2rem;">2. Cómo Usamos tu Información</h3>
+            <ul>
+                <li>Para crear y personalizar tu programa de entrenamiento.</li>
+                <li>Para mejorar nuestros servicios y desarrollar nuevas funciones.</li>
+                <li>Para comunicarnos contigo sobre actualizaciones y consejos fitness.</li>
+                <li>Nunca compartimos tu información personal con terceros sin tu consentimiento.</li>
+            </ul>
+
+            <h3 style="color: var(--primary-light); margin-top: 1.5rem; font-size: 1.2rem;">3. Seguridad de los Datos</h3>
+            <p>Implementamos medidas de seguridad técnicas y organizativas para proteger tu información contra accesos no autorizados y pérdida de datos.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Crear partículas
+            function createParticles() {
+                const particlesContainer = document.getElementById('particles-container');
+                const particleCount = Math.floor(window.innerWidth / 10);
+                particlesContainer.innerHTML = '';
+
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+
+                    const size = Math.random() * 12 + 2;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+
+                    particle.style.left = `${Math.random() * 100}vw`;
+                    particle.style.top = `${Math.random() * 100}vh`;
+
+                    const opacity = Math.random() * 3 + 0.1;
+                    particle.style.opacity = opacity;
+
+                    const duration = Math.random() * 30 + 5;
+                    particle.style.animationDuration = `${duration}s`;
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+
+                    const hue = Math.floor(Math.random() * 40) + 160;
+                    particle.style.backgroundColor = `hsla(${hue}, 90%, 60%, ${opacity})`;
+
+                    particlesContainer.appendChild(particle);
+                }
+            }
+
+            // Efectos hover para botones
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                btn.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Efecto hover para el contenedor
+            const container = document.querySelector('.container-welcome');
+            container.addEventListener('mouseenter', function () {
+                this.style.boxShadow = '0 0 40px rgba(0, 184, 148, 0.6)';
+                this.style.borderColor = 'rgba(0, 184, 148, 0.5)';
+            });
+            container.addEventListener('mouseleave', function () {
+                this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2)';
+                this.style.borderColor = 'rgba(0, 184, 148, 0.3)';
+            });
+
+            // Control de modales
+            document.getElementById("open-terms").addEventListener('click', function (e) {
+                e.preventDefault();
+                document.getElementById("terms-modal").style.display = "block";
+            });
+
+            document.getElementById("open-privacy").addEventListener('click', function (e) {
+                e.preventDefault();
+                document.getElementById("privacy-modal").style.display = "block";
+            });
+
+            document.getElementById("close-terms").addEventListener('click', function () {
+                document.getElementById("terms-modal").style.display = "none";
+            });
+
+            document.getElementById("close-privacy").addEventListener('click', function () {
+                document.getElementById("privacy-modal").style.display = "none";
+            });
+
+            window.addEventListener('click', function (event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = "none";
+                }
+            });
+
+            // Inicializar partículas y ajustar en redimensionamiento
+            createParticles();
+            window.addEventListener('resize', createParticles);
+        });
+    </script>
+</body>
+</html>

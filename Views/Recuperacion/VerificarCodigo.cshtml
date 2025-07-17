@@ -1,0 +1,492 @@
+﻿@{
+    ViewBag.Title = "Verificar Código";
+    Layout = null;
+    var mensaje = TempData["Mensaje"] as string;
+    var correo = ViewBag.Correo as string;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verificar Código | RunGym</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6C63FF;
+            --secondary-color: #4D44DB;
+            --accent-color: #FF7D4D;
+            --light-color: #F8F9FA;
+            --dark-color: #343A40;
+            --text-color: #495057;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .verification-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            max-width: 480px;
+            overflow: hidden;
+            transform: translateY(0);
+            transition: var(--transition);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .verification-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .verification-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+            opacity: 0.3;
+        }
+
+        .verification-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .verification-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .verification-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .verification-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            transition: var(--transition);
+            background-color: #f8f9fa;
+        }
+
+        .form-control:disabled {
+            background-color: #e9ecef;
+            opacity: 1;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+            background-color: white;
+        }
+
+        .code-input-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .code-input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .code-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .verification-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .verification-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .verification-footer a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 90%;
+            max-width: 500px;
+            transform: translateY(-20px);
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            position: relative;
+        }
+
+        .modal-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+            opacity: 0.3;
+        }
+
+        .modal-title {
+            font-weight: 600;
+            position: relative;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+
+        .modal-body {
+            padding: 25px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .modal-footer {
+            padding: 15px 25px;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-modal {
+            padding: 8px 20px;
+            border-radius: var(--border-radius);
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-modal-close {
+            background: #f1f1f1;
+            color: var(--text-color);
+        }
+
+        .btn-modal-close:hover {
+            background: #e9ecef;
+        }
+
+        /* Responsive adjustments */
+        .media (max-width: 576px) {
+            .verification-container {
+                max-width: 100%;
+            }
+
+            .verification-header {
+                padding: 25px;
+            }
+
+            .verification-body {
+                padding: 25px;
+            }
+
+            .code-input {
+                width: 40px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Vista principal -->
+    <div class="verification-container">
+        <div class="verification-header">
+            <div class="verification-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h2 class="verification-title">Verificar Código</h2>
+            <p class="verification-subtitle">Ingresa el código que recibiste en tu correo electrónico</p>
+        </div>
+
+        <div class="verification-body">
+            <form method="post" action="@Url.Action("VerificarCodigo", "Recuperacion")" id="verificationForm">
+                <input type="hidden" name="email" value="@correo" />
+
+                <div class="form-group">
+                    <label class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" value="@correo" disabled />
+                    <i class="fas fa-envelope" style="position: absolute; right: 15px; top: 40px; color: #adb5bd;"></i>
+                </div>
+
+                <div class="form-group">
+                    <label for="codigo" class="form-label">Código de Verificación</label>
+                    <input type="text" class="form-control" id="codigo" name="codigo" required placeholder="Ingresa el código de 6 dígitos" maxlength="6" />
+                    <i class="fas fa-key" style="position: absolute; right: 15px; top: 40px; color: #adb5bd;"></i>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span class="submit-text">Verificar Código</span>
+                    <i class="fas fa-spinner fa-spin" id="spinner" style="display: none;"></i>
+                </button>
+            </form>
+
+            <div class="verification-footer">
+                <p>¿Recordaste tu contraseña? <a href="@Url.Action("Login", "Home")">Iniciar sesión</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal personalizado -->
+    <div class="modal-overlay" id="mensajeModal" style="@(string.IsNullOrEmpty(mensaje) ? "display: none;" : "")">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Verificación</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>@mensaje</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-modal-close" id="confirmCloseModal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mostrar modal si hay mensaje
+        document.addEventListener("DOMContentLoaded", function() {
+            var mensaje = "@mensaje";
+            if (mensaje && mensaje.length > 0) {
+                document.getElementById('mensajeModal').classList.add('active');
+            }
+        });
+
+        // Cerrar modal
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('mensajeModal').classList.remove('active');
+        });
+
+        document.getElementById('confirmCloseModal').addEventListener('click', function() {
+            document.getElementById('mensajeModal').classList.remove('active');
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('mensajeModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        // Animación de envío del formulario
+        document.getElementById('verificationForm').addEventListener('submit', function(e) {
+            var spinner = document.getElementById('spinner');
+            var submitText = document.querySelector('.submit-text');
+
+            spinner.style.display = 'inline-block';
+            submitText.textContent = 'Verificando...';
+            this.querySelector('button[type="submit"]').disabled = true;
+        });
+
+        // Efecto hover para el botón de submit
+        var submitBtn = document.getElementById('submitBtn');
+
+        submitBtn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 6px 20px rgba(108, 99, 255, 0.4)';
+        });
+
+        submitBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 4px 15px rgba(108, 99, 255, 0.3)';
+        });
+
+        // Auto-avance para campos de código (si se implementan inputs individuales)
+        function setupCodeInputs() {
+            const inputs = document.querySelectorAll('.code-input');
+
+            inputs.forEach((input, index) => {
+                // Permitir solo números
+                input.addEventListener('input', function() {
+                    this.value = this.value.replace(/\D/g, '');
+
+                    // Avanzar al siguiente campo si se ingresa un número
+                    if (this.value.length === 1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                });
+
+                // Manejar tecla de retroceso
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value.length === 0 && index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                });
+            });
+        }
+
+        // Si decides implementar múltiples inputs para el código, descomenta esta línea:
+        // setupCodeInputs();
+    </script>
+</body>
+</html>

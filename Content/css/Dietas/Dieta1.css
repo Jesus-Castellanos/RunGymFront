@@ -1,0 +1,368 @@
+﻿.bulk-plan {
+    background-color: #FFF9F0;
+    border-radius: 18px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    border: 1px solid #FFE8CC;
+    position: relative;
+    overflow: hidden;
+    max-width: 1000px auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    .bulk-plan .plan-badge {
+        position: absolute;
+        top: 15px;
+        right: -30px;
+        background-color: #E67E22;
+        color: white;
+        padding: 5px 35px;
+        transform: rotate(45deg);
+        font-size: 12px;
+        font-weight: bold;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .bulk-plan .plan-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #FFE0B2;
+    }
+
+    .bulk-plan .title-group h2 {
+        color: #D35400;
+        margin-bottom: 5px;
+        font-size: 1.8em;
+    }
+
+    .bulk-plan .subtitle {
+        color: #E67E22;
+        font-weight: 500;
+        margin-top: 0;
+        font-size: 0.95em;
+    }
+
+    .bulk-plan .calorie-display {
+        background-color: #FFE0B2;
+        border-radius: 12px;
+        padding: 10px 15px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .bulk-plan .calorie-value {
+        font-size: 1.6em;
+        font-weight: bold;
+        color: #D35400;
+        line-height: 1;
+    }
+
+    .bulk-plan .calorie-unit {
+        font-size: 0.8em;
+        color: #E67E22;
+        font-weight: 500;
+    }
+
+    .bulk-plan .disclaimer {
+        background-color: #FFE0B2;
+        padding: 12px 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 0.85em;
+        color: #7E5109;
+    }
+
+        .bulk-plan .disclaimer svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: #D35400;
+        }
+
+    .bulk-plan .nutrition-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .bulk-plan .macros-card,
+    .bulk-plan .food-card {
+        background-color: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+
+    .bulk-plan h3 {
+        color: #E67E22;
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 1.2em;
+        border-bottom: 1px dashed #FFC78E;
+        padding-bottom: 8px;
+    }
+
+    .bulk-plan .macros {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .bulk-plan .macro {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .bulk-plan .macro-progress {
+        width: 80px;
+        height: 8px;
+        background-color: #FFE0B2;
+        border-radius: 4px;
+        position: relative;
+    }
+
+        .bulk-plan .macro-progress::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: calc(var(--percentage) * 100%);
+            background-color: var(--color);
+            border-radius: 4px;
+        }
+
+    .bulk-plan .macro .value {
+        font-weight: bold;
+        color: #D35400;
+        width: 40px;
+        text-align: right;
+        font-size: 1.1em;
+    }
+
+    .bulk-plan .macro .label {
+        color: #7E5109;
+        font-size: 0.95em;
+        flex-grow: 1;
+    }
+
+    .bulk-plan .macro .gramos {
+        color: #E67E22;
+        font-size: 0.85em;
+        font-weight: 500;
+        width: 80px;
+        text-align: right;
+    }
+
+    .bulk-plan .micronutrients-section {
+        margin-top: 25px;
+    }
+
+    .bulk-plan .micronutrients-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .bulk-plan .micronutrient {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .bulk-plan .micronutrient img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .bulk-plan .micronutrient span {
+            font-size: 0.8em;
+            color: #D35400;
+            text-align: center;
+            font-weight: 500;
+        }
+
+    .bulk-plan .meal {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #FFF0E0;
+    }
+
+        .bulk-plan .meal:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+    .bulk-plan .time {
+        font-weight: bold;
+        color: #D35400;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.95em;
+    }
+
+    .bulk-plan .meal p {
+        margin: 0 0 10px 0;
+        font-size: 0.95em;
+        color: #000000;
+        line-height: 1.5;
+    }
+
+    .bulk-plan .meal-micronutrients {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .bulk-plan .micronutrient-tag {
+        background-color: #FFE0B2;
+        color: #7E5109;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.75em;
+        font-weight: 500;
+    }
+
+    .bulk-plan .workout-card {
+        background-color: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+        margin-bottom: 20px;
+    }
+
+    .bulk-plan .workout-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .bulk-plan .workout-type {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9em;
+        color: #5D4037;
+    }
+
+        .bulk-plan .workout-type svg {
+            color: #E67E22;
+        }
+
+    .bulk-plan .exercise-list {
+        padding-left: 20px;
+        margin: 0;
+        font-size: 0.95em;
+        color: #5D4037;
+        line-height: 1.6;
+    }
+
+        .bulk-plan .exercise-list li {
+            margin-bottom: 8px;
+        }
+
+    .bulk-plan .actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .bulk-plan .btn-primary {
+        background-color: #E67E22;
+        color: white;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 30px;
+        font-weight: bold;
+        flex: 1;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 1em;
+    }
+
+        .bulk-plan .btn-primary:hover {
+            background-color: #D35400;
+        }
+
+    .bulk-plan .btn-secondary {
+        background-color: white;
+        color: #E67E22;
+        border: 1px solid #FFC78E;
+        padding: 14px 24px;
+        border-radius: 30px;
+        font-weight: bold;
+        flex: 1;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 1em;
+    }
+
+        .bulk-plan .btn-secondary:hover {
+            background-color: #FFF0E0;
+            border-color: #E67E22;
+        }
+
+.media (max-width: 768px) {
+    .bulk-plan .nutrition-grid
+
+{
+    grid-template-columns: 1fr;
+}
+
+.bulk-plan .micronutrients-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.bulk-plan .workout-details {
+    grid-template-columns: 1fr;
+}
+
+.bulk-plan .actions {
+    flex-direction: column;
+}
+
+}
+
+.media (max-width: 480px) {
+    .bulk-plan
+
+{
+    padding: 20px 15px;
+}
+
+.bulk-plan .macro {
+    flex-wrap: wrap;
+}
+
+.bulk-plan .macro-progress {
+    width: 100%;
+}
+
+.bulk-plan .micronutrients-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}

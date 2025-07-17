@@ -1,0 +1,327 @@
+﻿    @model RunGymFront.Models.Usuarios
+    @{
+        Layout = null;
+    }
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registro - RunGym</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="~/Content/css/Registro.css" />
+        <style>
+            /* Estilos para el contenedor flotante del reCAPTCHA */
+            .recaptcha-container {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                padding: 30px;
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                max-width: 400px;
+                width: 90%;
+                display: none;
+                text-align: center;
+            }
+
+            .recaptcha-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.7);
+                z-index: 999;
+                display: none;
+            }
+
+            .recaptcha-header {
+                margin-bottom: 20px;
+            }
+
+                .recaptcha-header h3 {
+                    color: #4361ee;
+                    font-weight: 600;
+                }
+
+            .recaptcha-body {
+                margin-bottom: 20px;
+            }
+
+            .recaptcha-footer {
+                font-size: 12px;
+                color: #6c757d;
+            }
+
+            .btn-verify {
+                background: #4361ee;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 8px;
+                margin-top: 15px;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+
+                .btn-verify:hover {
+                    background: #3a56e8;
+                    transform: translateY(-2px);
+                }
+
+            /* Estilo para el botón que dispara el reCAPTCHA */
+            .trigger-recaptcha {
+                border: 2px dashed #dee2e6;
+                padding: 15px;
+                text-align: center;
+                margin-top: 20px;
+                border-radius: 10px;
+            }
+
+                .trigger-recaptcha:hover {
+                    border-color: #4361ee;
+                    background: rgba(67, 97, 238, 0.05);
+                }
+        </style>
+    </head>
+    <body>
+
+        <div class="container text-center mt-5">
+            <div class="logo-container">
+                <img src="/images/Login/Logo.png" alt="RunGym Logo" class="logo img-fluid" aria-label="RunGym Logo">
+            </div>
+
+            <h2>Regístrate</h2>
+            @Html.AntiForgeryToken()
+            @using (Html.BeginForm("Registro", "Registro", FormMethod.Post, new { id = "registroForm" }))
+            {
+                <!-- Todos tus campos existentes aquí... -->
+
+                <div class="form-row">
+                    <!-- Nombre y Apellido -->
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.Nombre)
+                        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", placeholder = "Ej: Juan", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.Apellido)
+                        @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control", placeholder = "Ej: Pérez", required = "required" })
+                        @Html.ValidationMessageFor(m => m.Apellido, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!-- Tipo Documento y Documento -->
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.TipoDocumento)
+                        @Html.DropDownListFor(m => m.TipoDocumento, new List<SelectListItem>
+                                            {
+                            new SelectListItem { Text = "Seleccione tipo de documento", Value = "" },
+                            new SelectListItem { Text = "Cédula", Value = "Cedula" },
+                            new SelectListItem { Text = "Pasaporte", Value = "Pasaporte" },
+                            new SelectListItem { Text = "DNI", Value = "DNI" }
+                        }, new { @class = "form-select" })
+                        @Html.ValidationMessageFor(m => m.TipoDocumento, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.Documento)
+                        @Html.TextBoxFor(m => m.Documento, new { @class = "form-control", placeholder = "Número de documento" })
+                        @Html.ValidationMessageFor(m => m.Documento, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!-- Correo y Contraseñar -->
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.Correo)
+                        @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", placeholder = "ejemplo@correo.com", type = "email" })
+                        @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Contraseña)
+                        @Html.PasswordFor(m => m.Contraseña, new
+                        {
+                            @class = "form-control",
+                            placeholder = "Mínimo 4 caracteres",
+                            @maxlength = "4",
+                            @pattern = "[0-9]{4}",  // Solo permite números y exactamente 4 caracteres
+                            title = "La contraseña debe contener solo 4 números"
+                        })
+                        @Html.ValidationMessageFor(m => m.Contraseña, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!--confirmar contraseña y celular -->
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.ConfirmarContraseña)
+                        @Html.PasswordFor(m => m.ConfirmarContraseña, new { @class = "form-control", placeholder = "Repita su contraseña" })
+                        @Html.ValidationMessageFor(m => m.ConfirmarContraseña, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.Celular)
+                        @Html.TextBoxFor(m => m.Celular, new { @class = "form-control", placeholder = "Ej: 3001234567", type = "tel" })
+                        @Html.ValidationMessageFor(m => m.Celular, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!-- Género y Fecha Nacimiento -->
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.Genero)
+                        @Html.DropDownListFor(m => m.Genero, new List<SelectListItem>
+                                            {
+                            new SelectListItem { Text = "Seleccione su género", Value = "" },
+                            new SelectListItem { Text = "Masculino", Value = "Masculino" },
+                            new SelectListItem { Text = "Femenino", Value = "Femenino" },
+                            new SelectListItem { Text = "Otro", Value = "Otro" }
+                        }, new { @class = "form-select" })
+                        @Html.ValidationMessageFor(m => m.Genero, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.FechaNacimiento)
+                        @Html.TextBoxFor(m => m.FechaNacimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(m => m.FechaNacimiento, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!-- Peso y Altura -->
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.Peso)
+                        @Html.TextBoxFor(m => m.Peso, new { @class = "form-control", placeholder = "Ej: 76", type = "number", step = "any" })
+                        @Html.ValidationMessageFor(m => m.Peso, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.Altura)
+                        @Html.TextBoxFor(m => m.Altura, new
+                        {
+                            @class = "form-control",
+                            placeholder = "Ej: 1.75",
+                            type = "number",
+                            step = "0.01",
+                            lang = "en-US" // Fuerza el uso de punto decimal
+                        })
+                        @Html.ValidationMessageFor(m => m.Altura, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!--Horas sueño y Consumo de agua-->
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.HorasSueno)
+                        @Html.TextBoxFor(m => m.HorasSueno, new { @class = "form-control", placeholder = "Ej: 7", type = "number", step = "any" })
+                        @Html.ValidationMessageFor(m => m.HorasSueno, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.ConsumoAgua)
+                        @Html.TextBoxFor(m => m.ConsumoAgua, new { @class = "form-control", placeholder = "Ej: 2.5", type = "text" })
+                        @Html.ValidationMessageFor(m => m.ConsumoAgua, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <input type="hidden" name="RolId" value="2" />
+
+                <!-- Contenedor para activar el reCAPTCHA -->
+                <div class="trigger-recaptcha" id="triggerRecaptcha">
+                    <i class="fas fa-shield-alt fa-2x" style="color: #4361ee; margin-bottom: 10px;"></i>
+                    <p>Verificación de seguridad requerida</p>
+                    <small>Haz clic aquí para completar la verificación</small>
+                </div>
+
+                <!-- Campo oculto para almacenar el token de verificación -->
+                <input type="hidden" id="recaptchaToken" name="recaptchaToken">
+
+                <div class="form-group form-check text-left">
+                    <input type="checkbox" class="form-check-input" id="terminos" required>
+                    <label class="form-check-label" for="terminos">Acepto los términos y condiciones</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Registrarse</button>
+            }
+        </div>
+
+        <!-- Contenedor flotante para reCAPTCHA -->
+        <div class="recaptcha-overlay" id="recaptchaOverlay"></div>
+        <div class="recaptcha-container" id="recaptchaContainer">
+            <div class="recaptcha-header">
+                <h3>Verificación de seguridad</h3>
+                <p>Por favor completa el reCAPTCHA para continuar</p>
+            </div>
+            <div class="recaptcha-body">
+                <div class="g-recaptcha" data-sitekey="6Ld2iiYrAAAAAEiiFP35OGDngJ7QqcfmmueXT17T"></div>
+            </div>
+            <div class="recaptcha-footer">
+                <p>Esta verificación ayuda a prevenir registros automatizados.</p>
+            </div>
+            <button class="btn-verify" id="verifyBtn">Verificar</button>
+        </div>
+
+        <!-- Scripts -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <script>
+            $(document).ready(function () {
+                // Mostrar el reCAPTCHA cuando se hace clic en el trigger
+                $('#triggerRecaptcha').click(function () {
+                    $('#recaptchaOverlay').fadeIn();
+                    $('#recaptchaContainer').fadeIn();
+                });
+
+                // Ocultar al hacer clic fuera
+                $('#recaptchaOverlay').click(function () {
+                    $('#recaptchaOverlay').fadeOut();
+                    $('#recaptchaContainer').fadeOut();
+                });
+
+                // Botón de verificación
+                $('#verifyBtn').click(function () {
+                    var response = grecaptcha.getResponse();
+                    if (response.length > 0) {
+                        $('#recaptchaToken').val(response);
+                        $('#recaptchaOverlay').fadeOut();
+                        $('#recaptchaContainer').fadeOut();
+                        $('#submitBtn').prop('disabled', false);
+                        $('#triggerRecaptcha').html('<i class="fas fa-check-circle fa-2x" style="color: #4cc9f0; margin-bottom: 10px;"></i><p>Verificación completada</p>');
+                    } else {
+                        alert('Por favor completa el reCAPTCHA');
+                    }
+                });
+
+                // Validación personalizada para contraseñas coincidentes
+                $("form").validate({
+                    rules: {
+                        ConfirmarContraseña: {
+                            equalTo: "#Contraseña"
+                        }
+                    },
+                    messages: {
+                        ConfirmarContraseña: {
+                            equalTo: "Las contraseñas no coinciden"
+                        }
+                    },
+                    submitHandler: function (form) {
+                        if ($('#recaptchaToken').val() === '') {
+                            $('#triggerRecaptcha').css('border-color', '#f72585');
+                            alert('Por favor completa la verificación de seguridad');
+                            return false;
+                        }
+                        form.submit();
+                    }
+                });
+            });
+        </script>
+    </body>
+    </html>

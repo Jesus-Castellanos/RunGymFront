@@ -1,0 +1,200 @@
+﻿@model RunGymFront.Models.ErroresReportados
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportar Error - RunGym</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="~/Content/css/Contac.css" />
+</head>
+<body>
+    <!-- Partículas -->
+    <div id="particles-js"></div>
+
+    <div class="contact-container" id="contacto">
+        <div class="contact-info wave-effect">
+            <h2>Reporta un Error</h2>
+            <p><i class="fas fa-info-circle"></i> <span>Ayúdanos a mejorar RunGym reportando cualquier problema que encuentres</span></p>
+            <p><i class="fas fa-bug"></i> <span>Describe el error con el mayor detalle posible</span></p>
+            <p><i class="fas fa-history"></i> <span>Nuestro equipo revisará tu reporte en las próximas 24-48 horas</span></p>
+            <p><i class="fas fa-envelope"></i> <span>Te responderemos a: @(User.Identity.IsAuthenticated ? User.Identity.Name : "tu correo")</span></p>
+
+            <div class="status-message" id="statusMessage" style="display: none;">
+                <div class="alert" id="alertBox"></div>
+            </div>
+        </div>
+        
+
+        @using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { id = "contactForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="contact-form wave-effect">
+                <h2>Formulario de Reporte</h2>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Nombre)
+                    @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", placeholder = "Nombre Completo", required = "required" })
+                    @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Correo)
+                    @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", placeholder = "Correo", type = "email", required = "required" })
+                    @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Celular)
+                    @Html.TextBoxFor(m => m.Celular, new { @class = "form-control", placeholder = "Tu numero de celular", type = "tel", pattern = "[0-9]{10}" })
+                    @Html.ValidationMessageFor(m => m.Celular, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Asunto)
+                    @Html.DropDownListFor(m => m.Asunto, new SelectList(new[] {
+                        new { Value = "Error en la aplicación", Text = "🐛 Error en la aplicación" },
+                        new { Value = "Sugerencia de mejora", Text = "💡 Sugerencia de mejora" },
+                        new { Value = "Problema de cuenta", Text = "🔐 Problema de cuenta" },
+                        new { Value = "Error en entrenamiento", Text = "🏋️ Error en entrenamiento" },
+                        new { Value = "Otro problema", Text = "❓ Otro problema" }
+                    }, "Value", "Text"), new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(m => m.Asunto, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Mensaje)
+                    @Html.TextAreaFor(m => m.Mensaje, new { @class = "form-control", placeholder = "Describe el problema con detalle...", rows = "5", required = "required" })
+                    @Html.ValidationMessageFor(m => m.Mensaje, "", new { @class = "text-danger" })
+                </div>
+                <button type="submit" class="submit-btn wave-effect" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Enviar Reporte
+                </button>
+            </div>
+        }
+    </div>
+
+    <!-- Script de Partículas -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Inicializar partículas
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 300, "density": { "enable": true, "value_area": 1000 } },
+                "color": { "value": "#DC143C" },
+                "shape": { "type": "circle" },
+                "opacity": {
+                    "value": 1,
+                    "random": true,
+                    "anim": { "enable": true, "speed": 2, "opacity_min": 0 }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": { "enable": true, "speed": 2, "size_min": 0.1 }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#4ECDC4",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1,
+                    "direction": "none",
+                    "random": true,
+                    "out_mode": "out"
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": { "enable": true, "mode": "grab" },
+                    "onclick": { "enable": true, "mode": "push" },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": { "distance": 150, "line_linked": { "opacity": 5 } },
+                    "push": { "particles_nb": 4 }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // Manejo del formulario
+        document.getElementById('contactForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            submitBtn.disabled = true;
+
+            try {
+                const formData = new FormData(this);
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                });
+
+                if (response.ok) {
+                    // Mostrar SweetAlert2 de éxito
+                    Swal.fire({
+                        title: '¡Reporte enviado!',
+                        text: 'Hemos recibido tu reporte y lo revisaremos pronto.',
+                        icon: 'success',
+                        confirmButtonText: 'Entendido',
+                        customClass: {
+                            popup: 'sweet-alert-popup'
+                        }
+                    }).then(() => {
+                        // Resetear formulario después de cerrar el alert
+                        this.reset();
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    });
+
+                    // Mostrar mensaje en el contenedor también
+                    showStatusMessage('¡Reporte enviado con éxito!', 'success');
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Error al enviar el reporte');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: error.message || 'Ocurrió un error al enviar tu reporte. Por favor, inténtalo de nuevo.',
+                    icon: 'error',
+                    confirmButtonText: 'Entendido'
+                });
+
+                showStatusMessage('Error al enviar el reporte: ' + error.message, 'error');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        function showStatusMessage(message, type) {
+            const alertBox = document.getElementById('alertBox');
+            const statusMessage = document.getElementById('statusMessage');
+
+            alertBox.textContent = message;
+            alertBox.className = 'alert ' + type;
+            statusMessage.style.display = 'block';
+
+            // Ocultar después de 5 segundos
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

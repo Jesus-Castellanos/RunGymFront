@@ -1,0 +1,129 @@
+﻿@model RunGymFront.Models.Metas
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metas y Objetivos | RunGym</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/css/Metas.css"/>
+</head>
+<body>
+    <!-- Burbujas de fondo -->
+    <div id="bubbles-container"></div>
+
+    <div class="container">
+        <div class="form-container">
+            <div class="logo-container">
+                <img src="/images/Login/Logo.png" alt="RunGym Logo" class="logo img-fluid">
+            </div>
+
+            <h2>Metas y Objetivos</h2>
+            <p class="lead">Completa tus datos para personalizar tu experiencia</p>
+
+            @using (Html.BeginForm("MetasCreate", "Metas", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="mb-4">
+                    @Html.LabelFor(m => m.MetaPrincipal, new { @class = "form-label" })
+                    @Html.DropDownListFor(m => m.MetaPrincipal, new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Seleccione una opción", Value = "" },
+                        new SelectListItem { Text = "Perder peso", Value = "Perder peso" },
+                        new SelectListItem { Text = "Ganar peso/Músculo", Value = "Ganar peso/Músculo" },
+                    }, new { @class = "form-select" })
+                    @Html.ValidationMessageFor(m => m.MetaPrincipal, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-4">
+                    @Html.LabelFor(m => m.CuerpoActual, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.CuerpoActual, new { @class = "form-control", placeholder = "Ej: Sobrepeso, delgado, atlético..." })
+                    @Html.ValidationMessageFor(m => m.CuerpoActual, "", new { @class = "text-danger" })
+                    <small class="form-text">Describe tu condición física actual</small>
+                </div>
+
+                <div class="mb-4">
+                    @Html.LabelFor(m => m.CuerpoDeseado, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.CuerpoDeseado, new { @class = "form-control", placeholder = "Ej: Definido, musculoso, saludable..." })
+                    @Html.ValidationMessageFor(m => m.CuerpoDeseado, "", new { @class = "text-danger" })
+                    <small class="form-text">¿Cómo te gustaría verte?</small>
+                </div>
+
+                <div class="mb-4">
+                    @Html.LabelFor(m => m.FechaObjetivo, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.FechaObjetivo, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                    @Html.ValidationMessageFor(m => m.FechaObjetivo, "", new { @class = "text-danger" })
+                    <small class="form-text">Digite la fecha de tu objetivo principal!</small>
+                </div>
+
+                <div class="mb-4">
+                    @Html.LabelFor(m => m.Descripción, new { @class = "form-label" })
+                    @Html.TextAreaFor(m => m.Descripción, new
+                    {
+                        @class = "form-control",
+                        placeholder = "Cuéntanos más sobre ti: experiencia previa, lesiones, preferencias, etc. 😊",
+                        rows = "4"
+                    })
+                    @Html.ValidationMessageFor(m => m.Descripción, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        Continuar <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+
+        // Efectos de interacción
+        document.addEventListener("DOMContentLoaded", function () {
+            createBubbles();
+
+            // Efecto al enfocar los inputs
+            const inputs = document.querySelectorAll('.form-control, .form-select');
+
+            inputs.forEach(input => {
+                input.addEventListener('focus', function () {
+                    const label = this.parentElement.querySelector('.form-label');
+                    if (label) {
+                        label.style.textShadow = 'var(--text-glow)';
+                    }
+                });
+
+                input.addEventListener('blur', function () {
+                    const label = this.parentElement.querySelector('.form-label');
+                    if (label) {
+                        label.style.textShadow = 'none';
+                    }
+                });
+
+                // Efecto hover
+                input.addEventListener('mouseenter', function () {
+                    this.style.borderColor = 'var(--primary-color)';
+                    this.style.boxShadow = 'inset 0 0 15px rgba(67, 97, 238, 0.2), 0 0 15px rgba(67, 97, 238, 0.3)';
+                });
+
+                input.addEventListener('mouseleave', function () {
+                    if (!this.matches(':focus')) {
+                        this.style.borderColor = 'rgba(67, 97, 238, 0.3)';
+                        this.style.boxShadow = 'inset 0 0 10px rgba(0, 0, 0, 0.2), 0 0 10px rgba(67, 97, 238, 0.2)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

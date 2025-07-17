@@ -1,0 +1,265 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RunGym - Quiénes Somos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6584;
+            --dark: #121212;
+            --darker: #1E1E1E;
+            --light: #2D2D2D;
+            --text: #E0E0E0;
+            --text-light: #F5F5F5;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background-color: var(--dark);
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), /* Capa oscura semitransparente */
+            url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .navbar {
+            background-color: var(--darker);
+            padding: 1.2rem 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 5px;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #6C63FF;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+            .navbar-brand::before {
+                content: "🏋";
+                margin-right: 10px;
+                font-size: 1.5rem;
+            }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            background: var(--gradient);
+            color: #6C63FF;
+            padding: 5rem 2rem;
+            text-align: center;
+            border-radius: 16px;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .hero h1 {
+                font-size: 2.8rem;
+                margin-bottom: 1.5rem;
+                position: relative;
+            }
+
+        .section {
+            margin-bottom: 3rem;
+            background-color: var(--darker);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+            .section:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.4);
+            }
+
+            .section h2 {
+                color: var(--primary);
+                font-size: 2rem;
+                margin-top: 0;
+                margin-bottom: 1.5rem;
+                position: relative;
+                display: inline-block;
+            }
+
+                .section h2::after {
+                    content: "";
+                    position: absolute;
+                    bottom: -10px;
+                    left: 0;
+                    width: 60px;
+                    height: 4px;
+                    background: var(--secondary);
+                    border-radius: 2px;
+                }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--light);
+            padding: 1.8rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+            .feature-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+            }
+
+            .feature-card h3 {
+                color: var(--secondary);
+                font-size: 1.3rem;
+                margin-top: 0;
+            }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient);
+            color: var(--text-light);
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+            .btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+            }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+            ul li {
+                padding: 0.8rem 0;
+                padding-left: 2rem;
+                position: relative;
+                font-size: 1.05rem;
+            }
+
+                ul li::before {
+                    content: "•";
+                    color: var(--secondary);
+                    font-size: 1.8rem;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                }
+
+        footer {
+            background-color: var(--darker);
+            color: var(--text);
+            text-align: center;
+            padding: 2.5rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .media (max-width: 768px) {
+            .hero
+
+        {
+            padding: 3rem 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+        }
+
+        .section {
+            padding: 1.8rem;
+        }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <p class="navbar-brand">RunGym</p>
+    </nav>
+
+    <div class="container">
+
+        <section class="section">
+            <h2>Quiénes Somos</h2>
+            <p>RunGym nació en 2024 como una solución innovadora para quienes buscan mejorar su condición física desde la comodidad de su hogar. Somos un equipo de desarrolladores, entrenadores certificados y nutricionistas apasionados por la salud y la tecnología.</p>
+            <p>Nuestra misión es democratizar el acceso a rutinas de ejercicio personalizadas, combinando lo mejor del conocimiento en fitness con la potencia de la inteligencia artificial y el análisis de datos.</p>
+        </section>
+
+        <section class="section">
+            <h2>Nuestro Enfoque</h2>
+            <p>RunGym utiliza algoritmos avanzados en C#.NET y una base de datos SQL Server para ofrecer:</p>
+
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Personalización Total</h3>
+                    <p>Analizamos tus datos personales (edad, peso, género, tipo de cuerpo, nivel de actividad) para crear rutinas 100% adaptadas a ti.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Seguimiento Integral</h3>
+                    <p>Registramos tu progreso en tiempo real, incluyendo consumo de agua, horas de sueño y adherencia a la dieta.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Adaptabilidad Inteligente</h3>
+                    <p>El sistema ajusta automáticamente tu plan cuando detecta estancamientos o cambios en tus metas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>¿Por qué elegir RunGym?</h2>
+            <ul>
+                <li><strong>Sin equipos costosos:</strong> Rutinas diseñadas para usar tu peso corporal y objetos cotidianos.</li>
+                <li><strong>Enfoque holístico:</strong> No solo ejercicio, consideramos sueño, hidratación y factores emocionales.</li>
+                <li><strong>Para todos los niveles:</strong> Desde principiantes hasta atletas avanzados.</li>
+                <li><strong>Tecnología probada:</strong> Plataforma desarrollada con los estándares más altos de C#.NET MVC.</li>
+                <li><strong>Seguridad de datos:</strong> Tu información personal está protegida en nuestra base de datos SQL Server.</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2024 RunGym - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>

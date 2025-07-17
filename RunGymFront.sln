@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36212.18 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunGymFront", "RunGymFront.csproj", "{9CF6A61E-B710-4963-B348-40CC12602742}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9CF6A61E-B710-4963-B348-40CC12602742}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CF6A61E-B710-4963-B348-40CC12602742}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CF6A61E-B710-4963-B348-40CC12602742}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CF6A61E-B710-4963-B348-40CC12602742}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {947E84FA-0FCE-423C-81DF-AB527D858E95}
+	EndGlobalSection
+EndGlobal
