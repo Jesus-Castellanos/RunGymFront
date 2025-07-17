@@ -25,6 +25,7 @@ namespace RunGymFront.Controllers
             // muestra la vista por el peso //
             float peso = usuario.Peso;
             int IdTipoDieta;
+
             if (peso < 50)
                 
                 return RedirectToAction("Dieta1");
