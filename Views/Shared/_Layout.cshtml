@@ -176,7 +176,7 @@
         });
 
         (function() {
-        const inactivityLimit = (@ViewBag.InactivityLimitSeconds ?? 900) * 1000; // 15 minutos antes de mostrar el modal
+        const inactivityLimit = @(ViewBag.InactivityLimitSeconds != null ? ViewBag.InactivityLimitSeconds * 1000 : 9000);
         const countdownTime = 10; // segundos para cerrar sesión después de mostrar modal
 
         let inactivityTimer;
