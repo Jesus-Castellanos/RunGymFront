@@ -1,11 +1,9 @@
 ﻿using Newtonsoft.Json;
 using RunGymFront.Models;
 using RunGymFront.Services;
-using RunGymFront.Utils;
 using System;
 using System.Configuration;
 using System.Linq;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;

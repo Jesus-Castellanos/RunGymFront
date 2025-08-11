@@ -60,7 +60,7 @@
         </nav>
 
         <div class="sidebar-footer">
-            <a href="@Url.Action("Contact", "Home")" class="nav-item" id="Ayuda-link">
+            <a href="@Url.Action("Contact", "Home")" class="nav-item" id="Ayuda-link" id="Ayuda-link">
                 <img src="https://api.iconify.design/material-symbols:help-rounded.svg" alt="Ayuda">
                 <span>Ayuda</span>
             </a>
@@ -176,7 +176,7 @@
         });
 
         (function() {
-        const inactivityLimit = @(ViewBag.InactivityLimitSeconds != null ? ViewBag.InactivityLimitSeconds * 1000 : 9000);
+        const inactivityLimit = @((Convert.ToInt32(ViewBag.InactivityLimitSeconds ?? 900)) * 100); // 15 minutos antes de mostrar el modal
         const countdownTime = 10; // segundos para cerrar sesión después de mostrar modal
 
         let inactivityTimer;
@@ -226,21 +226,58 @@
         });
 
         resetInactivityTimer();
-    })();
+        })();
+
+        //Funcion para el cierre de secion
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutLink = document.getElementById("logout-link");
+            const logoutForm = document.getElementById("logoutForm");
+
+            if (logoutLink && logoutForm) {
+                logoutLink.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    logoutForm.submit();
+                });
+            }
+        });
+
+        window.onload = function () {
+            const logoutLink = document.getElementById("logout-link");
+            const logoutForm = document.getElementById("logoutForm");
+
+            console.log("logoutLink:", logoutLink);
+            console.log("logoutForm:", logoutForm);
+
+            if (logoutLink && logoutForm) {
+                logoutLink.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    logoutForm.submit();
+                });
+            }
+        };
 
 
-    document.getElementById("logout-link").addEventListener("click", function (e) {
-        e.preventDefault();
-        document.getElementById("logoutForm").submit();
-    });
+        window.addEventListener("pageshow", function (event) {
+            const navType = window.performance?.getEntriesByType("navigation")[0]?.type;
 
-     
-    // Este evento se activa cuando el usuario vuelve con el botón "Atrás"
-            window.addEventListener("pageshow", function (event) {
-        if (event.persisted || (window.performance && window.performance.navigation.type === 0)) {
-                // Redirige de inmediato si no hay sesión activa
-                window.location.reload(true); // fuerza recarga del servidor
-        }
+            if (event.persisted || navType === "back_forward") {
+                // Previene la visualización de contenido cacheado
+                document.body.style.display = "none"; // Evita parpadeo de la vista anterior
+
+                // Limpia datos inmediatamente
+                sessionStorage.clear();
+                localStorage.clear();
+
+                // Elimina todas las cookies
+                document.cookie.split(";").forEach(function (c) {
+                    document.cookie = c
+                        .replace(/^ +/, "")
+                        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+                });
+
+                // Redirige directamente al login
+                window.location.replace("/Login/Login"); // Más rápido y no deja historial
+            }
     });
     </script>
 </body>

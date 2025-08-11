@@ -197,38 +197,43 @@ namespace RunGymFront.Services
         {
             try
             {
-                if (!string.IsNullOrEmpty(SessionHelper.BearerToken))
+                if (string.IsNullOrEmpty(SessionHelper.BearerToken))
                 {
-                    using (var client = new HttpClient())
-                    {
-                        client.BaseAddress = new Uri(apiURL);
-                        client.DefaultRequestHeaders.Clear();
-
-                        if (parameters != null && parameters.Any())
-                        {
-                            var query = string.Join("&", parameters.Select(kvp =>
-                                $"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}"));
-
-                            endpoint = endpoint.Contains("?") ? $"{endpoint}&{query}" : $"{endpoint}?{query}";
-                        }
-
-                        HttpResponseMessage Res = await client.GetAsync(endpoint);
-
-                        if (Res.IsSuccessStatusCode)
-                        {
-                            var res = await Res.Content.ReadAsStringAsync();
-                            T response = JsonConvert.DeserializeObject<T>(res);
-                            return response;
-                        }
-                        else
-                        {
-                            throw new Exception("Error: " + Res.StatusCode);
-                        }
-                    }
+                    HttpContext.Current.Response.Redirect("/Login/Login", true);
+                    return default(T);
                 }
-                else
+
+                using (var client = new HttpClient())
                 {
-                    throw new Exception("Error: Token no existe o está expirado");
+                    client.BaseAddress = new Uri(apiURL);
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", SessionHelper.BearerToken);
+
+                    if (parameters != null && parameters.Any())
+                    {
+                        var query = string.Join("&", parameters.Select(kvp =>
+                            $"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}"));
+
+                        endpoint = endpoint.Contains("?") ? $"{endpoint}&{query}" : $"{endpoint}?{query}";
+                    }
+
+                    HttpResponseMessage Res = await client.GetAsync(endpoint);
+
+                    if (Res.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        HttpContext.Current.Response.Redirect("/Login/Login", true);
+                        return default(T);
+                    }
+
+                    if (Res.IsSuccessStatusCode)
+                    {
+                        var res = await Res.Content.ReadAsStringAsync();
+                        return JsonConvert.DeserializeObject<T>(res);
+                    }
+                    else
+                    {
+                        throw new Exception($"Error: {Res.StatusCode}");
+                    }
                 }
             }
             catch (Exception ex)

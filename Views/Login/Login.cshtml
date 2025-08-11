@@ -36,7 +36,7 @@
         </div>
 
         <h1 class="login-title">RUNGYM</h1>
-        <p class="login-subtitle">Accede a tu cuenta para continuar</p>
+        <p class="login-subtitle">Accede a tu cuenta de RunGym para continuar</p>
 
         @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "login-form", @novalidate = "novalidate" }))
         {
@@ -49,7 +49,7 @@
                     @Html.TextBoxFor(m => m.Correo, new
                     {
                         @class = "form-control",
-                        @placeholder = "ejemplo@dominio.com",
+                        @placeholder = "ejemplo@gmail.com",
                         @type = "email",
                         @required = "required"
                     })
@@ -67,6 +67,7 @@
                         @placeholder = "Ingresa tu contraseña",
                         @required = "required"
                     })
+
                     <button class="btn btn-outline-secondary toggle-password" type="button">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -136,7 +137,9 @@
                         input.type = 'text';
                         icon.classList.remove('fa-eye');
                         icon.classList.add('fa-eye-slash');
-                    } else {
+                    }
+                    else
+                    {
                         input.type = 'password';
                         icon.classList.remove('fa-eye-slash');
                         icon.classList.add('fa-eye');
