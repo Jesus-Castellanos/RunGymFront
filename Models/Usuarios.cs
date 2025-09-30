@@ -10,7 +10,6 @@ namespace RunGymFront.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
         public int Id { get; set; }
 
         [Display(Name = "Nombre")]
