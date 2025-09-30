@@ -13,7 +13,6 @@ using System.Web.Mvc;
 
 namespace RunGymFront.Services
 {
-    
     public static class Microservices
     {
         private static string apiURL = ConfigurationManager.AppSettings["Api"].ToString();
