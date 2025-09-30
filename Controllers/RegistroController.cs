@@ -1,6 +1,5 @@
 ﻿using RunGymFront.Models;
 using RunGymFront.Services;
-using RunGymFront.Utils;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;

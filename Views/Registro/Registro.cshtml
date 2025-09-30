@@ -1,130 +1,554 @@
-﻿    @model RunGymFront.Models.Usuarios
-    @{
-        Layout = null;
-    }
+﻿@model RunGymFront.Models.Usuarios
+@{
+    Layout = null;
+}
 
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Registro - RunGym</title>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="~/Content/css/Registro.css" />
-        <style>
-            /* Estilos para el contenedor flotante del reCAPTCHA */
-            .recaptcha-container {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: white;
-                padding: 30px;
-                border-radius: 15px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-                z-index: 1000;
-                max-width: 400px;
-                width: 90%;
-                display: none;
-                text-align: center;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - RunGym</title>
+    <!-- Se mantiene el uso de Bootstrap, Font-Awesome y Poppins -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/css/Registro.css" />
+    <style>
+        /* Estilos personalizados para el formulario, manteniendo tu estética */
+        :root {
+            --primary-color: #4361ee;
+            --hover-color: #3f37c9;
+            --glow-effect: 0 0 15px rgba(67, 97, 238, 0.7);
+            --text-glow: 0 0 8px rgba(67, 97, 238, 0.9);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background-image: url('/images/Login/Fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            padding: 2rem;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: rgba(26, 26, 27, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(67, 97, 238, 0.3);
+            backdrop-filter: blur(8px);
+            padding: 2.5rem;
+            margin: 2rem auto;
+            border: 1px solid rgba(67, 97, 238, 0.2);
+            animation: fadeIn 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(67, 97, 238, 0.1) 0%, transparent 70%);
+            animation: rotateGradient 15s linear infinite;
+            z-index: -1;
+        }
+
+        @@keyframes rotateGradient {
+            0% {
+                transform: rotate(0deg);
             }
-
-            .recaptcha-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0, 0, 0, 0.7);
-                z-index: 999;
-                display: none;
+            100% {
+                transform: rotate(360deg);
             }
+        }
 
-            .recaptcha-header {
-                margin-bottom: 20px;
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-
-                .recaptcha-header h3 {
-                    color: #4361ee;
-                    font-weight: 600;
-                }
-
-            .recaptcha-body {
-                margin-bottom: 20px;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
+        }
 
-            .recaptcha-footer {
-                font-size: 12px;
-                color: #6c757d;
+        h2 {
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-shadow: var(--text-glow);
+            letter-spacing: 1px;
+            color: white;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            border-radius: 100%;
+        }
+
+        /* Form styles */
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            flex: 1 1 calc(50% - 0.75rem);
+            min-width: 250px;
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+
+        .form-label {
+            color: #ffffff;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+            transition: var(--transition);
+            text-shadow: 0 0 5px rgba(67, 97, 238, 0.5);
+        }
+
+        .form-control, .form-select {
+            min-height: 50px;
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            background-color: rgba(30, 35, 60, 0.7);
+            border: 1px solid rgba(67, 97, 238, 0.3);
+            color: white;
+            transition: var(--transition);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2), 0 0 10px rgba(67, 97, 238, 0.2);
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(40, 45, 70, 0.8);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25), inset 0 0 10px rgba(67, 97, 238, 0.2), 0 0 15px rgba(67, 97, 238, 0.4);
+            color: #ffffff;
+            outline: none;
+        }
+
+        .form-control:hover, .form-select:hover {
+            border-color: var(--primary-color);
+            box-shadow: inset 0 0 15px rgba(67, 97, 238, 0.2), 0 0 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+            text-shadow: 0 0 3px rgba(67, 97, 238, 0.3);
+        }
+
+        .text-danger {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: block;
+            text-shadow: 0 0 5px rgba(255, 107, 107, 0.3);
+        }
+
+        .form-check {
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-check-input {
+            margin-right: 0.5rem;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(30, 35, 60, 0.7);
+            border: 1px solid rgba(67, 97, 238, 0.3);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .form-check-label {
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .form-check:hover .form-check-label {
+            text-shadow: var(--text-glow);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: white;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(67, 97, 238, 0.5);
+            margin-top: 1.5rem;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            z-index: 1;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(67, 97, 238, 0.8);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom right, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        .btn-primary:hover::before {
+            opacity: 1;
+            animation: shine 1.5s ease infinite;
+        }
+
+        @@keyframes shine {
+            0% {
+                left: -50%;
+                top: -50%;
             }
-
-            .btn-verify {
-                background: #4361ee;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                border-radius: 8px;
-                margin-top: 15px;
-                cursor: pointer;
-                transition: all 0.3s;
+            100% {
+                left: 150%;
+                top: 150%;
             }
+        }
 
-                .btn-verify:hover {
-                    background: #3a56e8;
-                    transform: translateY(-2px);
-                }
+        /* Logo styles */
+        .logo-container {
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
 
-            /* Estilo para el botón que dispara el reCAPTCHA */
-            .trigger-recaptcha {
-                border: 2px dashed #dee2e6;
-                padding: 15px;
-                text-align: center;
-                margin-top: 20px;
-                border-radius: 10px;
+        .logo-container::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            border-radius: 100%;
+        }
+
+        .logo {
+            max-width: 150px;
+            height: auto;
+            border-radius: 50%;
+            padding: 0.5rem;
+            border: 2px solid var(--primary-color);
+            box-shadow: var(--glow-effect);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 0 8px var(--primary-color));
+        }
+
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 25px rgba(67, 97, 238, 0.9);
+            animation: pulse 2s infinite;
+        }
+
+        @@keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.7);
             }
+            70% {
+                box-shadow: 0 0 0 15px rgba(67, 97, 238, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(67, 97, 238, 0);
+            }
+        }
 
-                .trigger-recaptcha:hover {
-                    border-color: #4361ee;
-                    background: rgba(67, 97, 238, 0.05);
-                }
-        </style>
-    </head>
-    <body>
+        /* Input group styles */
+        .input-group-text {
+            background-color: rgba(30, 35, 60, 0.7);
+            border: 1px solid rgba(67, 97, 238, 0.3);
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
 
-        <div class="container text-center mt-5">
-            <div class="logo-container">
-                <img src="/images/Login/Logo.png" alt="RunGym Logo" class="logo img-fluid" aria-label="RunGym Logo">
-            </div>
+        .input-group:hover .input-group-text {
+            border-color: var(--primary-color);
+            color: white;
+            background-color: rgba(40, 45, 70, 0.8);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
 
-            <h2>Regístrate</h2>
-            @Html.AntiForgeryToken()
-            @using (Html.BeginForm("Registro", "Registro", FormMethod.Post, new { id = "registroForm" }))
-            {
-                <!-- Todos tus campos existentes aquí... -->
+        /* Responsive adjustments */
+        @@media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .logo {
+                max-width: 120px;
+            }
+            h2 {
+                font-size: 1.75rem;
+            }
+            .form-group {
+                flex: 1 1 100%;
+            }
+            .form-row {
+                gap: 1rem;
+            }
+        }
 
+        /* Estilos para el contenedor flotante del reCAPTCHA */
+        .recaptcha-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            max-width: 400px;
+            width: 90%;
+            display: none;
+            text-align: center;
+        }
+
+        .recaptcha-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            display: none;
+        }
+
+        .recaptcha-header {
+            margin-bottom: 20px;
+        }
+
+        .recaptcha-header h3 {
+            color: #4361ee;
+            font-weight: 600;
+        }
+
+        .recaptcha-body {
+            margin-bottom: 20px;
+        }
+
+        .recaptcha-footer {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .btn-verify {
+            background: #4361ee;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-verify:hover {
+            background: #3a56e8;
+            transform: translateY(-2px);
+        }
+
+        /* Estilo para el botón que dispara el reCAPTCHA */
+        .trigger-recaptcha {
+            border: 2px dashed #dee2e6;
+            padding: 15px;
+            text-align: center;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .trigger-recaptcha:hover {
+            border-color: #4361ee;
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        /* Estilos para la lógica multi-paso */
+        .form-step {
+            display: none; /* Oculta todos los pasos por defecto */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .form-step.active {
+            display: block; /* Muestra solo el paso activo */
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: var(--primary-color);
+            border-radius: 4px;
+            transition: width 0.4s ease-in-out;
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .btn-navigation {
+             background-color: var(--primary-color);
+             border: none;
+             border-radius: 8px;
+             padding: 12px 24px;
+             font-weight: 600;
+             letter-spacing: 0.5px;
+             color: white;
+             cursor: pointer;
+             transition: all 0.4s ease;
+             position: relative;
+             overflow: hidden;
+             box-shadow: 0 0 15px rgba(67, 97, 238, 0.5);
+             text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+             z-index: 1;
+        }
+        .btn-navigation:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(67, 97, 238, 0.8);
+        }
+        .btn-back {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+        }
+        .btn-back:hover {
+            background-color: rgba(67, 97, 238, 0.2);
+            color: white;
+            box-shadow: 0 0 15px rgba(67, 97, 238, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container text-center">
+        <div class="logo-container">
+            <img src="/images/Login/Logo.png" alt="RunGym Logo" class="logo img-fluid" aria-label="RunGym Logo">
+        </div>
+
+        <h2>Regístrate</h2>
+
+        <!-- Barra de progreso adaptada a tu diseño -->
+        <div class="progress-bar-container">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+
+        @Html.AntiForgeryToken()
+        @using (Html.BeginForm("Registro", "Registro", FormMethod.Post, new { id = "registroForm" }))
+        {
+            <input type="hidden" name="RolId" value="2" />
+            <input type="hidden" id="recaptchaToken" name="recaptchaToken">
+
+            <!-- Paso 1: Información Personal y de Cuenta -->
+            <div id="step-1" class="form-step active">
                 <div class="form-row">
-                    <!-- Nombre y Apellido -->
                     <div class="form-group col-md-6">
-                        @Html.LabelFor(m => m.Nombre)
+                        @Html.LabelFor(m => m.Nombre, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", placeholder = "Ej: Juan", required = "required" })
                         @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
                     </div>
-
                     <div class="form-group col-md-6">
-                        @Html.LabelFor(m => m.Apellido)
+                        @Html.LabelFor(m => m.Apellido, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control", placeholder = "Ej: Pérez", required = "required" })
                         @Html.ValidationMessageFor(m => m.Apellido, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
                 <div class="form-row">
-                    <!-- Tipo Documento y Documento -->
                     <div class="form-group col-md-6">
-                        @Html.LabelFor(m => m.TipoDocumento)
+                        @Html.LabelFor(m => m.Correo, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", placeholder = "ejemplo@correo.com", type = "email" })
+                        @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.Contraseña, new { @class = "form-label" })
+                        @Html.PasswordFor(m => m.Contraseña, new
+                        {
+                            @class = "form-control",
+                            placeholder = "Mínimo 4 caracteres",
+                            @maxlength = "4",
+                            @pattern = "[0-9]{4}",
+                            title = "La contraseña debe contener solo 4 números"
+                        })
+                        @Html.ValidationMessageFor(m => m.Contraseña, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.ConfirmarContraseña, new { @class = "form-label" })
+                        @Html.PasswordFor(m => m.ConfirmarContraseña, new { @class = "form-control", placeholder = "Repita su contraseña" })
+                        @Html.ValidationMessageFor(m => m.ConfirmarContraseña, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="mt-4 d-flex justify-content-end">
+                    <button type="button" class="btn-navigation next-step-btn">Siguiente</button>
+                </div>
+            </div>
+
+            <!-- Paso 2: Información de Contacto y Perfil -->
+            <div id="step-2" class="form-step">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(m => m.TipoDocumento, new { @class = "form-label" })
                         @Html.DropDownListFor(m => m.TipoDocumento, new List<SelectListItem>
-                                            {
+                        {
                             new SelectListItem { Text = "Seleccione tipo de documento", Value = "" },
                             new SelectListItem { Text = "Cédula", Value = "Cedula" },
                             new SelectListItem { Text = "Pasaporte", Value = "Pasaporte" },
@@ -132,55 +556,24 @@
                         }, new { @class = "form-select" })
                         @Html.ValidationMessageFor(m => m.TipoDocumento, "", new { @class = "text-danger" })
                     </div>
-
                     <div class="form-group col-md-6">
-                        @Html.LabelFor(m => m.Documento)
+                        @Html.LabelFor(m => m.Documento, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.Documento, new { @class = "form-control", placeholder = "Número de documento" })
                         @Html.ValidationMessageFor(m => m.Documento, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
                 <div class="form-row">
-                    <!-- Correo y Contraseñar -->
                     <div class="form-group col-md-6">
-                        @Html.LabelFor(m => m.Correo)
-                        @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", placeholder = "ejemplo@correo.com", type = "email" })
-                        @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Contraseña)
-                        @Html.PasswordFor(m => m.Contraseña, new
-                        {
-                            @class = "form-control",
-                            placeholder = "Mínimo 4 caracteres",
-                            @maxlength = "4",
-                            @pattern = "[0-9]{4}",  // Solo permite números y exactamente 4 caracteres
-                            title = "La contraseña debe contener solo 4 números"
-                        })
-                        @Html.ValidationMessageFor(m => m.Contraseña, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <!--confirmar contraseña y celular -->
-                    <div class="form-group col-md-6">
-                        @Html.LabelFor(m => m.ConfirmarContraseña)
-                        @Html.PasswordFor(m => m.ConfirmarContraseña, new { @class = "form-control", placeholder = "Repita su contraseña" })
-                        @Html.ValidationMessageFor(m => m.ConfirmarContraseña, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="form-group col-md-6">
-                        @Html.LabelFor(m => m.Celular)
+                        @Html.LabelFor(m => m.Celular, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.Celular, new { @class = "form-control", placeholder = "Ej: 3001234567", type = "tel" })
                         @Html.ValidationMessageFor(m => m.Celular, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
                 <div class="form-row">
-                    <!-- Género y Fecha Nacimiento -->
                     <div class="form-group col-md-6">
-                        @Html.LabelFor(m => m.Genero)
+                        @Html.LabelFor(m => m.Genero, new { @class = "form-label" })
                         @Html.DropDownListFor(m => m.Genero, new List<SelectListItem>
-                                            {
+                        {
                             new SelectListItem { Text = "Seleccione su género", Value = "" },
                             new SelectListItem { Text = "Masculino", Value = "Masculino" },
                             new SelectListItem { Text = "Femenino", Value = "Femenino" },
@@ -189,139 +582,176 @@
                         @Html.ValidationMessageFor(m => m.Genero, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group col-md-6">
-                        @Html.LabelFor(m => m.FechaNacimiento)
+                        @Html.LabelFor(m => m.FechaNacimiento, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.FechaNacimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
                         @Html.ValidationMessageFor(m => m.FechaNacimiento, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                <div class="mt-4 d-flex justify-content-between">
+                    <button type="button" class="btn-navigation btn-back prev-step-btn">Anterior</button>
+                    <button type="button" class="btn-navigation next-step-btn">Siguiente</button>
+                </div>
+            </div>
 
+            <!-- Paso 3: Datos Físicos y Verificación -->
+            <div id="step-3" class="form-step">
                 <div class="form-row">
-                    <!-- Peso y Altura -->
                     <div class="form-group col-md-6">
-                        @Html.LabelFor(m => m.Peso)
+                        @Html.LabelFor(m => m.Peso, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.Peso, new { @class = "form-control", placeholder = "Ej: 76", type = "number", step = "any" })
                         @Html.ValidationMessageFor(m => m.Peso, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group col-md-6">
-                        @Html.LabelFor(m => m.Altura)
+                        @Html.LabelFor(m => m.Altura, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.Altura, new
                         {
                             @class = "form-control",
                             placeholder = "Ej: 1.75",
                             type = "number",
                             step = "0.01",
-                            lang = "en-US" // Fuerza el uso de punto decimal
+                            lang = "en-US"
                         })
                         @Html.ValidationMessageFor(m => m.Altura, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
                 <div class="form-row">
-                    <!--Horas sueño y Consumo de agua-->
                     <div class="form-group col-md-6">
-                        @Html.LabelFor(m => m.HorasSueno)
+                        @Html.LabelFor(m => m.HorasSueno, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.HorasSueno, new { @class = "form-control", placeholder = "Ej: 7", type = "number", step = "any" })
                         @Html.ValidationMessageFor(m => m.HorasSueno, "", new { @class = "text-danger" })
                     </div>
                     <div class="form-group col-md-6">
-                        @Html.LabelFor(m => m.ConsumoAgua)
+                        @Html.LabelFor(m => m.ConsumoAgua, new { @class = "form-label" })
                         @Html.TextBoxFor(m => m.ConsumoAgua, new { @class = "form-control", placeholder = "Ej: 2.5", type = "text" })
                         @Html.ValidationMessageFor(m => m.ConsumoAgua, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <input type="hidden" name="RolId" value="2" />
-
-                <!-- Contenedor para activar el reCAPTCHA -->
+                <!-- Contenedor para activar el reCAPTCHA (movido aquí) -->
                 <div class="trigger-recaptcha" id="triggerRecaptcha">
                     <i class="fas fa-shield-alt fa-2x" style="color: #4361ee; margin-bottom: 10px;"></i>
                     <p>Verificación de seguridad requerida</p>
                     <small>Haz clic aquí para completar la verificación</small>
                 </div>
 
-                <!-- Campo oculto para almacenar el token de verificación -->
-                <input type="hidden" id="recaptchaToken" name="recaptchaToken">
-
                 <div class="form-group form-check text-left">
                     <input type="checkbox" class="form-check-input" id="terminos" required>
                     <label class="form-check-label" for="terminos">Acepto los términos y condiciones</label>
                 </div>
 
-                <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Registrarse</button>
+                <div class="mt-4 d-flex justify-content-between">
+                    <button type="button" class="btn-navigation btn-back prev-step-btn">Anterior</button>
+                    <button type="submit" class="btn-primary" id="submitBtn" disabled>Registrarse</button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Contenedor flotante para reCAPTCHA -->
+    <div class="recaptcha-overlay" id="recaptchaOverlay"></div>
+    <div class="recaptcha-container" id="recaptchaContainer">
+        <div class="recaptcha-header">
+            <h3>Verificación de seguridad</h3>
+            <p>Por favor completa el reCAPTCHA para continuar</p>
+        </div>
+        <div class="recaptcha-body">
+            <div class="g-recaptcha" data-sitekey="6Ld2iiYrAAAAAEiiFP35OGDngJ7QqcfmmueXT17T"></div>
+        </div>
+        <div class="recaptcha-footer">
+            <p>Esta verificación ayuda a prevenir registros automatizados.</p>
+        </div>
+        <button class="btn-verify" id="verifyBtn">Verificar</button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        $(document).ready(function () {
+            const formSteps = $('.form-step');
+            const progressBar = $('#progressBar');
+            const submitBtn = $('#submitBtn');
+            let currentStep = 0;
+
+            // Muestra el paso inicial y actualiza la barra de progreso
+            updateForm();
+
+            function updateForm() {
+                // Oculta todos los pasos y muestra solo el actual
+                formSteps.hide();
+                formSteps.eq(currentStep).fadeIn();
+
+                // Actualiza la barra de progreso
+                const progress = (currentStep / (formSteps.length - 1)) * 100;
+                progressBar.css('width', `${progress}%`);
             }
-        </div>
 
-        <!-- Contenedor flotante para reCAPTCHA -->
-        <div class="recaptcha-overlay" id="recaptchaOverlay"></div>
-        <div class="recaptcha-container" id="recaptchaContainer">
-            <div class="recaptcha-header">
-                <h3>Verificación de seguridad</h3>
-                <p>Por favor completa el reCAPTCHA para continuar</p>
-            </div>
-            <div class="recaptcha-body">
-                <div class="g-recaptcha" data-sitekey="6Ld2iiYrAAAAAEiiFP35OGDngJ7QqcfmmueXT17T"></div>
-            </div>
-            <div class="recaptcha-footer">
-                <p>Esta verificación ayuda a prevenir registros automatizados.</p>
-            </div>
-            <button class="btn-verify" id="verifyBtn">Verificar</button>
-        </div>
+            // Lógica de navegación del formulario
+            $(document).on('click', '.next-step-btn', function () {
+                // Valida los campos del paso actual antes de avanzar
+                if ($("#registroForm").valid()) {
+                    currentStep++;
+                    updateForm();
+                }
+            });
 
-        <!-- Scripts -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-        <script>
-            $(document).ready(function () {
-                // Mostrar el reCAPTCHA cuando se hace clic en el trigger
-                $('#triggerRecaptcha').click(function () {
-                    $('#recaptchaOverlay').fadeIn();
-                    $('#recaptchaContainer').fadeIn();
-                });
+            $(document).on('click', '.prev-step-btn', function () {
+                currentStep--;
+                updateForm();
+            });
 
-                // Ocultar al hacer clic fuera
-                $('#recaptchaOverlay').click(function () {
+            // Lógica para reCAPTCHA
+            $('#triggerRecaptcha').click(function () {
+                $('#recaptchaOverlay').fadeIn();
+                $('#recaptchaContainer').fadeIn();
+            });
+
+            $('#recaptchaOverlay').click(function () {
+                $('#recaptchaOverlay').fadeOut();
+                $('#recaptchaContainer').fadeOut();
+            });
+
+            $('#verifyBtn').click(function () {
+                var response = grecaptcha.getResponse();
+                if (response.length > 0) {
+                    $('#recaptchaToken').val(response);
                     $('#recaptchaOverlay').fadeOut();
                     $('#recaptchaContainer').fadeOut();
-                });
-
-                // Botón de verificación
-                $('#verifyBtn').click(function () {
-                    var response = grecaptcha.getResponse();
-                    if (response.length > 0) {
-                        $('#recaptchaToken').val(response);
-                        $('#recaptchaOverlay').fadeOut();
-                        $('#recaptchaContainer').fadeOut();
-                        $('#submitBtn').prop('disabled', false);
-                        $('#triggerRecaptcha').html('<i class="fas fa-check-circle fa-2x" style="color: #4cc9f0; margin-bottom: 10px;"></i><p>Verificación completada</p>');
-                    } else {
-                        alert('Por favor completa el reCAPTCHA');
-                    }
-                });
-
-                // Validación personalizada para contraseñas coincidentes
-                $("form").validate({
-                    rules: {
-                        ConfirmarContraseña: {
-                            equalTo: "#Contraseña"
-                        }
-                    },
-                    messages: {
-                        ConfirmarContraseña: {
-                            equalTo: "Las contraseñas no coinciden"
-                        }
-                    },
-                    submitHandler: function (form) {
-                        if ($('#recaptchaToken').val() === '') {
-                            $('#triggerRecaptcha').css('border-color', '#f72585');
-                            alert('Por favor completa la verificación de seguridad');
-                            return false;
-                        }
-                        form.submit();
-                    }
-                });
+                    submitBtn.prop('disabled', false); // Habilita el botón de registro
+                    $('#triggerRecaptcha').html('<i class="fas fa-check-circle fa-2x" style="color: #4cc9f0; margin-bottom: 10px;"></i><p>Verificación completada</p>');
+                } else {
+                    alert('Por favor completa el reCAPTCHA');
+                }
             });
-        </script>
-    </body>
-    </html>
+
+            // Integración con jQuery Validate
+            $("#registroForm").validate({
+                rules: {
+                    ConfirmarContraseña: {
+                        equalTo: "#Contraseña"
+                    }
+                },
+                messages: {
+                    ConfirmarContraseña: {
+                        equalTo: "Las contraseñas no coinciden"
+                    }
+                },
+                // El submitHandler ahora solo se encarga del último paso
+                submitHandler: function (form) {
+                    if ($('#recaptchaToken').val() === '') {
+                        $('#triggerRecaptcha').css('border-color', '#f72585');
+                        alert('Por favor completa la verificación de seguridad');
+                        return false;
+                    }
+                    form.submit();
+                },
+                // Ignorar los campos de los pasos inactivos durante la validación
+                ignore: ":hidden, .form-step:not(.active) input, .form-step:not(.active) select"
+            });
+        });
+    </script>
+
+</body>
+</html>
