@@ -1,268 +1,225 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Home Page";
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RunGym - Quiénes Somos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>RunGym - Panel de Inicio</title>
+
+    <!-- Tailwind CSS (Ya debería estar cargado por tu _Layout) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Poppins (Ya debería estar cargado por tu _Layout) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
     <style>
+        /* Paleta de colores y variables consistentes con el Layout */
         :root {
-            --primary: #6C63FF;
-            --secondary: #FF6584;
-            --dark: #121212;
-            --darker: #1E1E1E;
-            --light: #2D2D2D;
-            --text: #E0E0E0;
-            --text-light: #F5F5F5;
-            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --primary-color: #ff5722;
+            --secondary-color: #ff9800;
+            --dark-background: #1f2833;
+            --medium-background: #303d4b;
+            --text-light: #FFFFFF;
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --sidebar-border: rgba(255, 255, 255, 0.1);
+            --active-glow: rgba(255, 87, 34, 0.5);
+            --transition-speed: 0.3s;
         }
 
+        /* Aseguramos que el body de este contenido específico no interfiera con el layout principal */
         body {
-            -webkit-text-size-adjust: 100%;
-            -moz-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
-            text-size-adjust: 100%;
             font-family: 'Poppins', sans-serif;
-            line-height: 1.7;
-            color: var(--text);
-            background-color: var(--dark);
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), /* Capa oscura semitransparente */
-            url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
-            background-size: cover;
+            background-color: var(--dark-background); /* Coincide con el fondo del contenido del layout */
+            color: var(--text-muted);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .navbar {
-            background-color: var(--darker);
-            padding: 1.2rem 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin: 5px;
-        }
-
-        .navbar-brand {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #6C63FF;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-            .navbar-brand::before {
-                content: "🏋";
-                margin-right: 10px;
-                font-size: 1.5rem;
+        /* --- Animaciones --- */
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .hero {
-            background: var(--gradient);
-            color: #6C63FF;
-            padding: 5rem 2rem;
-            text-align: center;
-            border-radius: 16px;
-            margin-bottom: 3rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-            .hero h1 {
-                font-size: 2.8rem;
-                margin-bottom: 1.5rem;
-                position: relative;
-            }
-
-        .section {
-            margin-bottom: 3rem;
-            background-color: var(--darker);
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-            .section:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.4);
-            }
-
-            .section h2 {
-                color: var(--primary);
-                font-size: 2rem;
-                margin-top: 0;
-                margin-bottom: 1.5rem;
-                position: relative;
-                display: inline-block;
-            }
-
-                .section h2::after {
-                    content: "";
-                    position: absolute;
-                    bottom: -10px;
-                    left: 0;
-                    width: 60px;
-                    height: 4px;
-                    background: var(--secondary);
-                    border-radius: 2px;
-                }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .feature-card {
-            background-color: var(--light);
-            padding: 1.8rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            border-left: 4px solid var(--primary);
-        }
-
-            .feature-card:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
-            }
-
-            .feature-card h3 {
-                color: var(--secondary);
-                font-size: 1.3rem;
-                margin-top: 0;
-            }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--gradient);
-            color: var(--text-light);
-            padding: 0.9rem 1.8rem;
-            border: none;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
-
-            .btn:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
-            }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-            ul li {
-                padding: 0.8rem 0;
-                padding-left: 2rem;
-                position: relative;
-                font-size: 1.05rem;
-            }
-
-                ul li::before {
-                    content: "•";
-                    color: var(--secondary);
-                    font-size: 1.8rem;
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                }
-
-        footer {
-            background-color: var(--darker);
-            color: var(--text);
-            text-align: center;
-            padding: 2.5rem 2rem;
-            margin-top: 4rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        @@media (max-width: 768px) {
-            .container {
-                padding: 3rem 1.5rem;
-            }
-
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .section {
-                padding: 1.8rem;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
+
+        /* --- Estilos Personalizados para los Widgets del Dashboard --- */
+        .summary-card {
+            background-color: var(--medium-background);
+            border: 1px solid var(--sidebar-border);
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .summary-card .icon-bg {
+             background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+
+        .progress-bar-container {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+        }
+
+        .chart-container {
+            background-color: var(--medium-background);
+            border: 1px solid var(--sidebar-border);
+        }
+
+        .btn-custom-secondary {
+            background-color: var(--medium-background);
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .btn-custom-secondary:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        /* Estilo para el SVG del gráfico */
+        .chart-line {
+            stroke: var(--primary-color);
+            stroke-width: 3;
+            fill: none;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw-chart 2s ease-out forwards;
+        }
+
+        .chart-dot {
+            fill: var(--secondary-color);
+            stroke: var(--dark-background);
+            stroke-width: 2;
+            opacity: 0;
+            animation: fade-in-dots 0.5s ease-out forwards;
+        }
+
+        @@keyframes draw-chart {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @@keyframes fade-in-dots {
+             to {
+                opacity: 1;
+            }
+        }
+
     </style>
 </head>
-<body>
-    <nav class="navbar">
-        <p class="navbar-brand">RunGym</p>
-    </nav>
+<body class="p-6 md:p-8">
 
-    <div class="container">
+    <!-- Contenido del Panel de Inicio -->
+    <div class="space-y-10">
 
-        <section class="section">
-            <h2>Quiénes Somos</h2>
-            <p>RunGym nació en 2024 como una solución innovadora para quienes buscan mejorar su condición física desde la comodidad de su hogar. Somos un equipo de desarrolladores, entrenadores certificados y nutricionistas apasionados por la salud y la tecnología.</p>
-            <p>Nuestra misión es democratizar el acceso a rutinas de ejercicio personalizadas, combinando lo mejor del conocimiento en fitness con la potencia de la inteligencia artificial y el análisis de datos.</p>
-        </section>
+        <!-- 1. Encabezado de Bienvenida -->
+        <header style="animation: fadeInUp 0.5s ease-out;">
+            <h1 class="text-4xl font-bold text-white">¡Bienvenido de nuevo, Usuario!</h1>
+            <p class="text-lg text-text-muted mt-1">Aquí tienes un resumen de tu actividad de hoy.</p>
+        </header>
 
-        <section class="section">
-            <h2>Nuestro Enfoque</h2>
-            <p>RunGym utiliza algoritmos avanzados en C#.NET y una base de datos SQL Server para ofrecer:</p>
-
-            <div class="features">
-                <div class="feature-card">
-                    <h3>Personalización Total</h3>
-                    <p>Analizamos tus datos personales (edad, peso, género, tipo de cuerpo, nivel de actividad) para crear rutinas 100% adaptadas a ti.</p>
+        <!-- 2. Tarjetas de Resumen (KPIs) -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1: Rutina de Hoy -->
+            <div class="summary-card rounded-xl p-6 flex items-center space-x-4" style="animation: fadeInUp 0.6s ease-out;">
+                <div class="icon-bg w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+                    <img src="https://api.iconify.design/mdi:weight-lifter.svg" alt="Rutina" class="w-8 h-8" style="filter: invert(1) brightness(2);">
                 </div>
-
-                <div class="feature-card">
-                    <h3>Seguimiento Integral</h3>
-                    <p>Registramos tu progreso en tiempo real, incluyendo consumo de agua, horas de sueño y adherencia a la dieta.</p>
+                <div>
+                    <p class="text-text-muted text-sm">Rutina de Hoy</p>
+                    <p class="text-white font-bold text-lg">Pecho y Tríceps</p>
                 </div>
-
-                <div class="feature-card">
-                    <h3>Adaptabilidad Inteligente</h3>
-                    <p>El sistema ajusta automáticamente tu plan cuando detecta estancamientos o cambios en tus metas.</p>
+            </div>
+            <!-- Card 2: Calorías -->
+            <div class="summary-card rounded-xl p-6" style="animation: fadeInUp 0.7s ease-out;">
+                <div class="flex justify-between items-center mb-2">
+                    <p class="text-text-muted text-sm">Calorías</p>
+                    <img src="https://api.iconify.design/mdi:fire.svg" alt="Calorías" class="w-6 h-6 text-primary-color">
+                </div>
+                <p class="text-white font-bold text-2xl">1,850 <span class="text-text-muted text-base">/ 2,500 kcal</span></p>
+                <div class="progress-bar-container rounded-full h-2 mt-3 overflow-hidden">
+                    <div class="progress-bar h-full rounded-full" style="width: 74%;"></div>
+                </div>
+            </div>
+            <!-- Card 3: Hidratación -->
+            <div class="summary-card rounded-xl p-6" style="animation: fadeInUp 0.8s ease-out;">
+                <div class="flex justify-between items-center mb-2">
+                    <p class="text-text-muted text-sm">Hidratación</p>
+                    <img src="https://api.iconify.design/mdi:water-drop.svg" alt="Hidratación" class="w-6 h-6 text-primary-color">
+                </div>
+                <p class="text-white font-bold text-2xl">1.8 <span class="text-text-muted text-base">/ 2.5 L</span></p>
+                <div class="progress-bar-container rounded-full h-2 mt-3 overflow-hidden">
+                    <div class="progress-bar h-full rounded-full" style="width: 72%;"></div>
+                </div>
+            </div>
+            <!-- Card 4: Horas de Sueño -->
+            <div class="summary-card rounded-xl p-6 flex items-center space-x-4" style="animation: fadeInUp 0.9s ease-out;">
+                <div class="icon-bg w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+                    <img src="https://api.iconify.design/mdi:moon-waning-crescent.svg" alt="Sueño" class="w-8 h-8" style="filter: invert(1) brightness(2);">
+                </div>
+                <div>
+                    <p class="text-text-muted text-sm">Último Descanso</p>
+                    <p class="text-white font-bold text-lg">7h 45min</p>
                 </div>
             </div>
         </section>
 
-        <section class="section">
-            <h2>¿Por qué elegir RunGym?</h2>
-            <ul>
-                <li><strong>Sin equipos costosos:</strong> Rutinas diseñadas para usar tu peso corporal y objetos cotidianos.</li>
-                <li><strong>Enfoque holístico:</strong> No solo ejercicio, consideramos sueño, hidratación y factores emocionales.</li>
-                <li><strong>Para todos los niveles:</strong> Desde principiantes hasta atletas avanzados.</li>
-                <li><strong>Tecnología probada:</strong> Plataforma desarrollada con los estándares más altos de C#.NET MVC.</li>
-                <li><strong>Seguridad de datos:</strong> Tu información personal está protegida en nuestra base de datos SQL Server.</li>
-            </ul>
+        <!-- 3. Gráfico de Progreso y Acciones Rápidas -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Columna del Gráfico -->
+            <div class="lg:col-span-2 chart-container rounded-xl p-6" style="animation: fadeInUp 1s ease-out;">
+                <h3 class="text-xl font-bold text-white mb-4">Progreso Semanal (Peso en kg)</h3>
+                <div class="h-64 flex items-end">
+                    <!-- Placeholder de Gráfico con SVG animado -->
+                    <svg class="w-full h-full" viewBox="0 0 500 200" preserveAspectRatio="none">
+                        <polyline class="chart-line" points="0,150 100,120 200,140 300,90 400,60 500,40" />
+                        <circle class="chart-dot" cx="100" cy="120" r="5" style="animation-delay: 0.4s;"></circle>
+                        <circle class="chart-dot" cx="200" cy="140" r="5" style="animation-delay: 0.8s;"></circle>
+                        <circle class="chart-dot" cx="300" cy="90" r="5" style="animation-delay: 1.2s;"></circle>
+                        <circle class="chart-dot" cx="400" cy="60" r="5" style="animation-delay: 1.6s;"></circle>
+                        <circle class="chart-dot" cx="500" cy="40" r="5" style="animation-delay: 2s;"></circle>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Columna de Acciones Rápidas -->
+            <div class="summary-card rounded-xl p-6 flex flex-col justify-between" style="animation: fadeInUp 1.1s ease-out;">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">Acciones Rápidas</h3>
+                    <div class="space-y-4">
+                        <button class="w-full text-left flex items-center space-x-3 p-4 rounded-lg bg-dark-background/50 hover:bg-dark-background transition-colors duration-300">
+                            <img src="https://api.iconify.design/mdi:plus-circle.svg" alt="Comida" class="w-6 h-6 text-secondary-color">
+                            <span class="font-semibold text-white">Registrar Comida</span>
+                        </button>
+                        <button class="w-full text-left flex items-center space-x-3 p-4 rounded-lg bg-dark-background/50 hover:bg-dark-background transition-colors duration-300">
+                            <img src="https://api.iconify.design/mdi:scale-bathroom.svg" alt="Peso" class="w-6 h-6 text-secondary-color">
+                            <span class="font-semibold text-white">Actualizar Peso</span>
+                        </button>
+                    </div>
+                </div>
+                <a href="#" class="btn-custom-secondary font-bold py-3 px-6 rounded-full w-full text-center mt-6">
+                    Ver todas mis rutinas
+                </a>
+            </div>
         </section>
+
     </div>
 
-    <footer>
-        <p>© 2024 RunGym - Todos los derechos reservados</p>
-    </footer>
 </body>
 </html>
+

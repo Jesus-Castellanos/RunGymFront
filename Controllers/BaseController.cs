@@ -15,6 +15,8 @@ namespace TuProyecto.Controllers
             HttpContext.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
             HttpContext.Response.Cache.SetCacheability(HttpCacheability.NoCache);
             HttpContext.Response.Cache.SetNoStore();
+
+
         }
     }
 }

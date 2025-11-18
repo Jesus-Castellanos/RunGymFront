@@ -1,185 +1,403 @@
-﻿@{
+﻿@model dynamic
+@{
     Layout = null;
 }
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RUNGYM - Transforma tu cuerpo</title>
+    <title>RUNGYM - Inicia tu Misión Estelar</title>
     <meta name="description" content="Programas de entrenamiento personalizados para alcanzar tus metas fitness">
-    <link rel="preload" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" as="style">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" as="style">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="~/images/Login/favicon.ico" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="preconnect" href="https://maxcdn.bootstrapcdn.com">
-    <link rel="stylesheet" href="~/Content/css/Welcome.css" />
+
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fuente Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Iconos Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* ========================================================== */
+        /* Paleta de Colores (UNIFICADA - Tema Fitness Carbón/Naranja)
+        /* ========================================================== */
+
+        :root {
+            /* Colores de fondo del Login */
+            --bg-dark: #1f2833; /* Carbón oscuro */
+            --bg-deep: #303d4b; /* Azul/Carbón profundo */
+            /* Colores de acento del Login */
+            --orange-primary: #ff9800; /* Naranja vibrante (Botón) */
+            --red-accent: #ff5722; /* Rojo/Naranja enérgico (Contraste) */
+            --text-light: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Degradado de fondo unificado (Carbón oscuro y azul profundo) */
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-deep) 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: var(--text-light);
+            position: relative;
+        }
+
+        /* Contenedor principal para centrar el contenido */
+        .container-welcome {
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            width: 90%;
+            /* Borde sutil y transparencia, usando colores más oscuros */
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            /* Sombra que refleja el acento naranja del Login */
+            box-shadow: 0 0 30px rgba(255, 152, 0, 0.4);
+            background-color: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Animación de entrada para el contenido */
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Título y eslogan */
+        .brand-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+            /* Brillo futurista usando el color de acento principal */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px var(--orange-primary);
+        }
+
+        .brand-slogan {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3rem;
+        }
+
+        /* ---------------------------------------------------------- */
+        /* Contenedor de botones: Responsive (mantenido) */
+        /* ---------------------------------------------------------- */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        @@media (min-width: 768px) {
+            .button-container {
+                flex-direction: row;
+                gap: 2.5rem;
+            }
+
+            .btn-primary, .btn-secondary {
+                flex: 1;
+                max-width: 350px;
+            }
+        }
+        /* ---------------------------------------------------------- */
+
+        /* Estilo de botones: Neón y Elevación */
+        .btn-primary, .btn-secondary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        /* Botón Primario: COMPEZAR MISIÓN */
+        .btn-primary {
+            background: linear-gradient(90deg, var(--orange-primary) 0%, var(--red-accent) 100%);
+            color: var(--bg-dark); /* Color de texto oscuro para el contraste */
+            border: 2px solid var(--orange-primary);
+            box-shadow: 0 0 15px rgba(255, 152, 0, 0.8); /* Brillo naranja */
+        }
+
+            .btn-primary:hover {
+                background: linear-gradient(90deg, var(--red-accent) 0%, var(--orange-primary) 100%);
+                transform: scale(1.05);
+                box-shadow: 0 0 25px rgba(255, 87, 34, 1);
+            }
+
+        /* Botón Secundario: ACCEDER A MI CUENTA */
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-light);
+            /* Borde que contrasta bien con el fondo oscuro, usando un blanco sutil */
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+            .btn-secondary:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+                border-color: var(--text-light);
+                transform: scale(1.05);
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            }
+
+        .btn-icon {
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        /* Footer y enlaces de texto */
+        .footer-text a {
+            color: var(--orange-primary);
+            text-decoration: none;
+            transition: color 0.3s;
+            text-shadow: 0 0 5px rgba(255, 152, 0, 0.3);
+        }
+
+            .footer-text a:hover {
+                color: var(--red-accent);
+            }
+
+        /* ========================================================== */
+        /* EFECTO DE PARTÍCULAS (LLUVIA ESTELAR) */
+        /* ========================================================== */
+
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: #ffffff; /* Partículas blancas para el efecto estelar */
+            opacity: 0;
+            animation: starFall linear infinite;
+        }
+
+        /* Animación para simular la caída / movimiento diagonal de las partículas */
+        @@keyframes starFall {
+            0% {
+                transform: translate(0, 0) rotate(20deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-100vw, 100vh) rotate(20deg);
+                opacity: 0;
+            }
+        }
+
+        /* Logo/Icono - Animación de rebote */
+        .logo-container {
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite ease-in-out;
+            /* La restricción de tamaño ahora se maneja con clases de Tailwind en el HTML */
+        }
+
+        @@keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        /* Media Query para pantallas pequeñas */
+        @@media (max-width: 767px) {
+            .brand-title {
+                font-size: 2.5rem;
+                letter-spacing: 0.1em;
+            }
+
+            .brand-slogan {
+                font-size: 1rem;
+            }
+
+            .container-welcome {
+                padding: 1rem;
+                border-radius: 1rem;
+                margin-top: -20px;
+            }
+
+            .btn-text {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Contenedor de partículas (lluvia estelar) -->
     <div id="particles-container"></div>
 
+    <!-- Contenido principal centrado -->
     <main class="container-welcome">
-        <div class="logo-container">
-            <img src="~/images/Login/Logo.png" alt="RUNGYM Logo" class="logo img-fluid" width="180" height="180" loading="eager">
+        <!-- MODIFICACIÓN CLAVE: Se añaden clases de tamaño (w-20/h-20 en móvil, md:w-28/md:h-28 en escritorio) y mx-auto para centrar. -->
+        <div class="logo-container mx-auto w-20 h-20 md:w-28 md:h-28">
+            <img src="~/Imagenes/Logo.png"
+                 alt="RUNGYM Logo"
+                 class="w-full h-full object-cover rounded-full"
+                 loading="eager"
+                 onerror="this.onerror=null; this.src='https://placehold.co/112x112/ff9800/1f2833?text=RG'">
         </div>
 
         <h1 class="brand-title">RUNGYM</h1>
-        <p class="brand-slogan">Transforma tu cuerpo, supera tus límites</p>
+        <p class="brand-slogan">Transforma tu cuerpo, inicia tu misión estelar</p>
 
+        <!-- Botones lado a lado en escritorio, apilados en móvil -->
         <div class="button-container">
-            <a href="@Url.Action("Registro", "Registro")" class="btn btn-primary" aria-label="Crear mi programa de entrenamiento">
-                <span class="btn-icon">🏋️</span>
-                <span class="btn-text">COMENZAR MI TRANSFORMACIÓN</span>
+            <!-- Botón Primario: COMPEZAR MISIÓN (Accento en Naranja/Rojo) -->
+            <a href="@Url.Action("Registro", "Registro")" class="btn-primary" aria-label="Crear mi programa de entrenamiento">
+                <span class="btn-icon"><i class="fas fa-rocket"></i></span>
+                <span class="btn-text">COMENZAR MI MISIÓN</span>
             </a>
 
-            <a href="@Url.Action("Login", "Login")" class="btn btn-secondary" aria-label="Acceder a mi cuenta">
-                <span class="btn-icon">🔑</span>
+            <!-- Botón Secundario: ACCEDER A MI CUENTA (Contraste con fondo oscuro) -->
+            <a href="@Url.Action("Login", "Login")" class="btn-secondary" aria-label="Acceder a mi cuenta">
+                <span class="btn-icon"><i class="fas fa-user-astronaut"></i></span>
                 <span class="btn-text">ACCEDER A MI CUENTA</span>
             </a>
         </div>
 
         <footer class="footer-text">
-            <p>
+            <p class="text-xs sm:text-sm">
                 Al continuar, aceptas nuestros
                 <a href="#" id="open-terms">términos de uso</a> y nuestra
                 <a href="#" id="open-privacy">política de privacidad</a>
             </p>
-            <p>¿Necesitas ayuda? <a href="@Url.Action("Contact", "Home")">Contáctanos</a></p>
+            <p class="text-xs sm:text-sm">¿Necesitas ayuda? <a href="@Url.Action("Contact", "Home")">Contáctanos</a></p>
         </footer>
     </main>
 
-    <!-- Modal: Términos de Uso -->
-    <div id="terms-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="close-terms">&times;</span>
-            <h2>Términos de Uso - RUNGYM</h2>
-            <p>Bienvenido a RUNGYM. Al acceder y utilizar nuestro servicio, aceptas cumplir con los siguientes términos y condiciones:</p>
+    <!-- Modal: Términos de Uso (Usando clases de Tailwind para simplicidad) -->
+    <div id="terms-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 hidden">
+        <div class="modal-content bg-white text-gray-800 rounded-lg p-6 max-w-lg w-full shadow-2xl relative">
+            <button class="close absolute top-3 right-3 text-xl font-bold hover:text-red-500" id="close-terms">&times;</button>
+            <h2 class="text-2xl font-bold mb-4 border-b pb-2" style="color: var(--bg-dark);">Términos de Uso - RUNGYM</h2>
+            <p class="mb-4 text-sm">Bienvenido a RUNGYM. Al acceder y utilizar nuestro servicio, aceptas cumplir con los siguientes términos y condiciones:</p>
 
-            <h3 style="color: var(--primary-light); margin-top: 1.5rem; font-size: 1.2rem;">1. Uso del Servicio</h3>
-            <ul>
+            <h3 class="font-semibold text-lg mt-4" style="color: var(--red-accent);">1. Uso del Servicio</h3>
+            <ul class="list-disc list-inside ml-4 text-sm space-y-1">
                 <li>RUNGYM proporciona programas de entrenamiento personalizados basados en tus objetivos fitness.</li>
                 <li>Eres responsable de usar el servicio de manera adecuada y conforme a estas condiciones.</li>
                 <li>No está permitido compartir cuentas entre múltiples usuarios.</li>
             </ul>
-
-            <h3 style="color: var(--primary-light); margin-top: 1.5rem; font-size: 1.2rem;">2. Responsabilidad</h3>
-            <ul>
-                <li>Consultar con un profesional médico antes de comenzar cualquier programa de ejercicio.</li>
-                <li>RUNGYM no se hace responsable por lesiones derivadas del uso incorrecto de las rutinas proporcionadas.</li>
-                <li>Eres responsable de ajustar la intensidad del ejercicio según tu condición física.</li>
-            </ul>
-
-            <h3 style="color: var(--primary-light); margin-top: 1.5rem; font-size: 1.2rem;">3. Propiedad Intelectual</h3>
-            <p>Todos los contenidos, diseños y programas de entrenamiento son propiedad exclusiva de RUNGYM y están protegidos por derechos de autor.</p>
         </div>
     </div>
 
     <!-- Modal: Política de Privacidad -->
-    <div id="privacy-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="close-privacy">&times;</span>
-            <h2>Política de Privacidad - RUNGYM</h2>
-            <p>En RUNGYM valoramos y protegemos tu privacidad. Esta política explica cómo recopilamos, usamos y protegemos tu información personal.</p>
+    <div id="privacy-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 hidden">
+        <div class="modal-content bg-white text-gray-800 rounded-lg p-6 max-w-lg w-full shadow-2xl relative">
+            <button class="close absolute top-3 right-3 text-xl font-bold hover:text-red-500" id="close-privacy">&times;</button>
+            <h2 class="text-2xl font-bold mb-4 border-b pb-2" style="color: var(--bg-dark);">Política de Privacidad - RUNGYM</h2>
+            <p class="mb-4 text-sm">En RUNGYM valoramos y protegemos tu privacidad. Esta política explica cómo recopilamos, usamos y protegemos tu información personal.</p>
 
-            <h3 style="color: var(--primary-light); margin-top: 1.5rem; font-size: 1.2rem;">1. Información que Recopilamos</h3>
-            <ul>
+            <h3 class="font-semibold text-lg mt-4" style="color: var(--red-accent);">1. Información que Recopilamos</h3>
+            <ul class="list-disc list-inside ml-4 text-sm space-y-1">
                 <li>Datos personales básicos (nombre, email, edad, etc.) para crear tu perfil.</li>
                 <li>Información sobre tus objetivos fitness, medidas corporales y progreso.</li>
-                <li>Datos de uso de la plataforma para mejorar nuestro servicio.</li>
             </ul>
-
-            <h3 style="color: var(--primary-light); margin-top: 1.5rem; font-size: 1.2rem;">2. Cómo Usamos tu Información</h3>
-            <ul>
-                <li>Para crear y personalizar tu programa de entrenamiento.</li>
-                <li>Para mejorar nuestros servicios y desarrollar nuevas funciones.</li>
-                <li>Para comunicarnos contigo sobre actualizaciones y consejos fitness.</li>
-                <li>Nunca compartimos tu información personal con terceros sin tu consentimiento.</li>
-            </ul>
-
-            <h3 style="color: var(--primary-light); margin-top: 1.5rem; font-size: 1.2rem;">3. Seguridad de los Datos</h3>
-            <p>Implementamos medidas de seguridad técnicas y organizativas para proteger tu información contra accesos no autorizados y pérdida de datos.</p>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Crear partículas
+            // LÓGICA DE PARTÍCULAS MEJORADA (LLUVIA ESTELAR)
             function createParticles() {
                 const particlesContainer = document.getElementById('particles-container');
-                const particleCount = Math.floor(window.innerWidth / 10);
+                // Más partículas para el efecto de lluvia estelar
+                const particleCount = Math.floor(window.innerWidth / 5);
                 particlesContainer.innerHTML = '';
 
                 for (let i = 0; i < particleCount; i++) {
                     const particle = document.createElement('div');
                     particle.classList.add('particle');
 
-                    const size = Math.random() * 12 + 2;
+                    const size = Math.random() * 8 + 0.50; // Tamaño de 1px a 5px
                     particle.style.width = `${size}px`;
                     particle.style.height = `${size}px`;
 
+                    // Generar en toda la pantalla
                     particle.style.left = `${Math.random() * 100}vw`;
                     particle.style.top = `${Math.random() * 100}vh`;
 
-                    const opacity = Math.random() * 3 + 0.1;
-                    particle.style.opacity = opacity;
-
-                    const duration = Math.random() * 30 + 5;
+                    // Duración y retraso para que las partículas caigan en momentos diferentes
+                    const duration = Math.random() * 10 + 5; // 5s a 15s de duración
                     particle.style.animationDuration = `${duration}s`;
-                    particle.style.animationDelay = `${Math.random() * 5}s`;
-
-                    const hue = Math.floor(Math.random() * 40) + 160;
-                    particle.style.backgroundColor = `hsla(${hue}, 90%, 60%, ${opacity})`;
+                    particle.style.animationDelay = `${Math.random() * 15}s`;
 
                     particlesContainer.appendChild(particle);
                 }
             }
 
-            // Efectos hover para botones
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(btn => {
-                btn.addEventListener('mouseenter', function () {
-                    this.style.transform = 'translateY(-5px)';
-                });
-                btn.addEventListener('mouseleave', function () {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
+            // CONTROL DE MODALES (Términos y Privacidad)
+            const termsModal = document.getElementById("terms-modal");
+            const privacyModal = document.getElementById("privacy-modal");
 
-            // Efecto hover para el contenedor
-            const container = document.querySelector('.container-welcome');
-            container.addEventListener('mouseenter', function () {
-                this.style.boxShadow = '0 0 40px rgba(0, 184, 148, 0.6)';
-                this.style.borderColor = 'rgba(0, 184, 148, 0.5)';
-            });
-            container.addEventListener('mouseleave', function () {
-                this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2)';
-                this.style.borderColor = 'rgba(0, 184, 148, 0.3)';
-            });
-
-            // Control de modales
             document.getElementById("open-terms").addEventListener('click', function (e) {
                 e.preventDefault();
-                document.getElementById("terms-modal").style.display = "block";
+                termsModal.classList.remove('hidden');
             });
 
             document.getElementById("open-privacy").addEventListener('click', function (e) {
                 e.preventDefault();
-                document.getElementById("privacy-modal").style.display = "block";
+                privacyModal.classList.remove('hidden');
             });
 
             document.getElementById("close-terms").addEventListener('click', function () {
-                document.getElementById("terms-modal").style.display = "none";
+                termsModal.classList.add('hidden');
             });
 
             document.getElementById("close-privacy").addEventListener('click', function () {
-                document.getElementById("privacy-modal").style.display = "none";
+                privacyModal.classList.add('hidden');
             });
 
+            // Cerrar al hacer click fuera del modal
             window.addEventListener('click', function (event) {
-                if (event.target.classList.contains('modal')) {
-                    event.target.style.display = "none";
+                if (event.target === termsModal) {
+                    termsModal.classList.add('hidden');
+                }
+                if (event.target === privacyModal) {
+                    privacyModal.classList.add('hidden');
                 }
             });
 

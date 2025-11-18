@@ -11,126 +11,376 @@
     <title>Iniciar Sesión - RUNGYM</title>
     <meta name="description" content="Accede a tu cuenta de RUNGYM para gestionar tu programa de entrenamiento personalizado">
 
-    <!-- Preload de recursos críticos -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
-
-    <!-- Hojas de estilo -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fuente Popins que usabas en tu código -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Iconos Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <!-- Favicon -->
-    <link rel="icon" href="~/images/Login/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="~/Content/css/Login.css"/>
+    <style>
+        /* CSS Base para el diseño de paneles y gradientes (Tema FITNESS) */
+        body {
+            font-family: 'Poppins', sans-serif; /* Usamos la fuente que tenías */
+            /* Degradado de fondo: Carbón oscuro y azul profundo */
+            background: linear-gradient(135deg, #1f2833 0%, #303d4b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .main-wrapper {
+            /* Contenedor principal del Login (reemplaza a login-container) */
+            width: 90%;
+            max-width: 800px;
+            height: 550px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* PANEL IZQUIERDO: Visual (Fondo oscuro de gimnasio) */
+        .visual-panel {
+            flex: 1;
+            /* Degradado de fondo del panel visual (más oscuro) */
+            background: linear-gradient(135deg, #0b1a2a 0%, #1f2833 100%);
+            position: relative;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* PANEL DERECHO: Formulario (Vibrante naranja/rojo para energía) */
+        .form-panel {
+            flex: 1;
+            /* Degradado de fondo del panel del formulario */
+            background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%); /* Naranja a rojo enérgico */
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Estilo de partículas (del código JS que ya tenías) */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0; /* Inicia invisible hasta que el JS le da opacidad */
+            background-color: white;
+            animation: move-and-twinkle linear infinite;
+        }
+
+        @@keyframes move-and-twinkle {
+            0% { transform: translateY(0vh); opacity: 0.1; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(100vh); opacity: 0.1; }
+        }
+
+        /* Estilo de los campos de entrada */
+        /* Eliminamos border-bottom del .form-control general y lo movemos a input-group/password-group */
+        .form-group .form-control {
+            background-color: transparent !important;
+            border: none !important;
+            color: white !important;
+            padding: 0.5rem 0 !important;
+            border-radius: 0 !important;
+            transition: border-bottom-color 0.3s;
+            flex-grow: 1; /* Permite que el input crezca */
+        }
+
+        .form-group .form-control:focus {
+            outline: none !important;
+            box-shadow: none !important;
+            /* Ya no necesitamos esta línea aquí, la maneja el contenedor padre */
+        }
+
+        .form-group .form-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        .form-group .input-group-text {
+            background-color: transparent !important;
+            border: none !important;
+            color: rgba(255, 255, 255, 0.8) !important;
+            padding-right: 0.5rem;
+        }
+
+        /* Contenedor Flex para el grupo de correo */
+        .input-group {
+            display: flex;
+            align-items: flex-end;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+            padding-bottom: 0.5rem;
+            transition: border-bottom-color 0.3s;
+        }
+        .input-group:focus-within {
+             border-bottom-color: white;
+        }
+        .input-group .form-control {
+             margin-bottom: -0.5rem; /* Ajuste para la línea */
+        }
+
+        /* Contenedor Flex para el grupo de contraseña */
+        .password-group {
+            display: flex;
+            align-items: flex-end; /* Alinear elementos al borde inferior de la línea */
+            border-bottom: 2px solid rgba(255, 255, 255, 0.6); /* Mover la línea al contenedor padre */
+            padding-bottom: 0.5rem; /* Espacio para la línea de abajo */
+            transition: border-bottom-color 0.3s;
+        }
+        .password-group:focus-within {
+             border-bottom-color: white; /* Línea blanca al enfocar */
+        }
+
+        .password-group .form-control {
+            border-bottom: none !important; /* Quitamos la línea del input */
+            padding-bottom: 0 !important;
+            margin-bottom: -0.5rem; /* Subir el input para que la línea de abajo del contenedor se vea mejor */
+        }
+
+        /* === FIX: Ocultar el icono de 'ojo' nativo del navegador (¡Esto resuelve tu problema!) === */
+        /* Oculta el icono de 'ojo' nativo que Chrome/Edge agregan a los campos de contraseña. */
+        .password-group input[type="password"]::-ms-reveal,
+        .password-group input[type="password"]::-ms-clear {
+            display: none;
+        }
+        .password-group input[type="password"]::-webkit-contacts-auto-fill-button,
+        .password-group input[type="password"]::-webkit-credentials-auto-fill-button {
+            visibility: hidden;
+            display: none !important;
+        }
+        /* Fin de FIX */
+
+
+        .form-panel ::placeholder {
+            color: rgba(255, 255, 255, 0.9) !important;
+            opacity: 1;
+        }
+
+        /* Estilo del botón de Iniciar Sesión (RUNGYM) */
+        .btn-login {
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            color: #ff5722 !important; /* Texto del botón original */
+            background-color: white !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px; /* Totalmente redondeado */
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-login:hover {
+            opacity: 0.9;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .toggle-password {
+            background-color: transparent !important;
+            border: none !important;
+            color: rgba(255, 255, 255, 0.8) !important;
+            padding: 0 0.5rem; /* Padding para el botón */
+            cursor: pointer;
+            transition: color 0.2s;
+            /* CORRECCIÓN: Aseguramos que el botón no tenga efectos de texto raros */
+            line-height: 1;
+        }
+        .toggle-password:hover {
+            color: white !important;
+        }
+
+        .login-title, .login-subtitle {
+            color: white;
+            text-align: center;
+        }
+
+        /* Footer/Links */
+        .footer-text a {
+            color: white;
+            opacity: 0.9;
+            text-decoration: underline;
+            transition: opacity 0.3s;
+        }
+        .footer-text a:hover {
+            opacity: 1;
+        }
+        .footer-text p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Media query para dispositivos móviles */
+        @@media (max-width: 768px) {
+            .main-wrapper {
+                flex-direction: column;
+                height: auto;
+                width: 95%;
+            }
+            .visual-panel {
+                height: 250px;
+                padding: 1rem;
+            }
+            .form-panel {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Contenedor de partículas -->
+    <!-- Contenedor de partículas (manteniendo tu ID) -->
     <div id="particles-container"></div>
 
-    <!-- Contenido principal -->
-    <main class="login-container">
-        <div class="logo-container">
-            <img src="/images/Login/Logo.png" alt="RUNGYM Logo" class="logo img-fluid" width="120" height="120" loading="eager">
+    <!-- Contenido principal con el nuevo diseño de panel dividido -->
+    <div class="main-wrapper">
+
+        <!-- PANEL IZQUIERDO: Visual (Tema RUNGYM / Gimnasio) -->
+        <div class="visual-panel">
+            <!-- Contenedor Circular para el Logo -->
+            <div class="w-48 h-48 rounded-full bg-orange-500 flex justify-center items-center mb-4 border-4 border-white border-opacity-30">
+                <!-- LOGO: Ahora con w-full, h-full y object-cover para llenar y redondear la imagen -->
+                <img src="~/Imagenes/Logo.png"
+                     alt="RUNGYM Logo"
+                     class="w-full h-full object-cover rounded-full"
+                     loading="eager"
+                     onerror="this.onerror=null; this.src='https://placehold.co/100x100/1f2833/FFFFFF?text=RG'">
+            </div>
+
+            <!-- Título "RUNGYM" con el espaciado estilizado -->
+            <h1 class="text-white text-xl tracking-widest uppercase z-10 font-bold" style="letter-spacing: 0.8rem;">
+                R U N G Y M
+            </h1>
+            <p class="text-white text-sm opacity-70 mt-2">
+                ¡El camino hacia tu mejor versión!
+            </p>
         </div>
 
-        <h1 class="login-title">RUNGYM</h1>
-        <p class="login-subtitle">Accede a tu cuenta de RunGym para continuar</p>
+        <!-- PANEL DERECHO: Formulario de Autenticación -->
+        <div class="form-panel">
 
-        @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "login-form", @novalidate = "novalidate" }))
-        {
-            @Html.AntiForgeryToken()
+            <h1 class="login-title text-3xl font-bold mb-1">Acceder</h1>
+            <p class="login-subtitle text-sm opacity-90 mb-6">Ingresa tus credenciales para continuar</p>
 
-            <div class="mb-3 form-group">
-                @Html.LabelFor(m => m.Correo, new { @class = "form-label" })
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    @Html.TextBoxFor(m => m.Correo, new
-                    {
-                        @class = "form-control",
-                        @placeholder = "ejemplo@gmail.com",
-                        @type = "email",
-                        @required = "required"
-                    })
+            @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "login-form space-y-4", @novalidate = "novalidate" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Correo, new { @class = "form-label" })
+                    <!-- CORREO: Usamos el input-group ya estilizado -->
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        @Html.TextBoxFor(m => m.Correo, new
+                        {
+                            @class = "form-control",
+                            @placeholder = "ejemplo@gmail.com",
+                            @type = "email",
+                            @required = "required"
+                        })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "validation-message" })
                 </div>
-                @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "validation-message" })
-            </div>
 
-            <div class="mb-4 form-group">
-                @Html.LabelFor(m => m.Contraseña, new { @class = "form-label" })
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                    @Html.PasswordFor(m => m.Contraseña, new
-                    {
-                        @class = "form-control",
-                        @placeholder = "Ingresa tu contraseña",
-                        @required = "required"
-                    })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Contraseña, new { @class = "form-label" })
 
-                    <button class="btn btn-outline-secondary toggle-password" type="button">
-                        <i class="fas fa-eye"></i>
+                    <!-- CONTRASEÑA: Ahora solo debe aparecer el candado y nuestro botón de ojo -->
+                    <div class="password-group">
+                        <!-- ICONO FIJO: Candado -->
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+
+                        <!-- CAMPO DE CONTRASEÑA -->
+                        @Html.PasswordFor(m => m.Contraseña, new
+                        {
+                            @class = "form-control",
+                            @placeholder = "Ingresa tu contraseña",
+                            @required = "required"
+                        })
+
+                        <!-- BOTÓN FUNCIONAL: Ojo para alternar la visibilidad -->
+                        <button class="toggle-password" type="button">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Contraseña, "", new { @class = "validation-message" })
+                </div>
+
+                <!-- Contenedor de Botones (Manteniendo el d-grid de Bootstrap para centrado) -->
+                <div class="d-grid pt-4">
+                    <button type="submit" class="btn-login">
+                        <span class="btn-icon"><i class="fas fa-sign-in-alt"></i></span>
+                        <span>Iniciar Sesión</span>
                     </button>
                 </div>
-                @Html.ValidationMessageFor(m => m.Contraseña, "", new { @class = "validation-message" })
-            </div>
 
-            <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-login">
-                    <span class="btn-icon"><i class="fas fa-sign-in-alt"></i></span>
-                    <span>Iniciar Sesión</span>
-                </button>
-            </div>
+                <footer class="footer-text text-center space-y-2 mt-6">
+                    <a href="@Url.Action("RecuperarContraseña", "Recuperacion")" class="block text-sm">¿Olvidaste tu contraseña?</a>
+                    <p class="text-xs">¿No tienes cuenta? <a href="@Url.Action("Registro", "Registro")">Regístrate aquí</a></p>
+                </footer>
+            }
+        </div>
+    </div>
 
-            <footer class="footer-text">
-                <a href="@Url.Action("RecuperarContraseña", "Recuperacion")">¿Olvidaste tu contraseña?</a>
-                <p>¿No tienes cuenta? <a href="@Url.Action("Registro", "Registro")">Regístrate aquí</a></p>
-            </footer>
-        }
-    </main>
-
-    <!-- Scripts -->
+    <!-- Scripts de validación de jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Crear partículas
+            // LÓGICA DE PARTÍCULAS (Actualizada)
             function createParticles() {
                 const particlesContainer = document.getElementById('particles-container');
-                const particleCount = Math.floor(window.innerWidth / 15);
+                // Reducimos el divisor de 30 a 12 para aumentar la cantidad de partículas.
+                const particleCount = Math.floor(window.innerWidth / 5);
                 particlesContainer.innerHTML = '';
 
                 for (let i = 0; i < particleCount; i++) {
                     const particle = document.createElement('div');
                     particle.classList.add('particle');
 
-                    const size = Math.random() * 12 + 2;
+                    const size = Math.random() * 8 + 0.050; // Tamaño entre 1px y 9px
                     particle.style.width = `${size}px`;
                     particle.style.height = `${size}px`;
 
+                    // Usamos viewport units para que se muevan por toda la pantalla
                     particle.style.left = `${Math.random() * 100}vw`;
-                    particle.style.top = `${Math.random() * 100}vh`;
+                    particle.style.top = `-${Math.random() * 100}vh`; // Inician arriba
 
-                    const opacity = Math.random() * 3 + 0.1;
+                    const opacity = Math.random() * 0.7 + 0.1;
                     particle.style.opacity = opacity;
 
-                    const duration = Math.random() * 30 + 5;
+                    const duration = Math.random() * 30 + 15; // Duración de movimiento larga
                     particle.style.animationDuration = `${duration}s`;
-                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    particle.style.animationDelay = `${Math.random() * 10}s`;
 
-                    const hue = Math.floor(Math.random() * 40) + 160;
-                    particle.style.backgroundColor = `hsla(${hue}, 90%, 60%, ${opacity})`;
+                    // Color blanco o un sutil azul/verde para las partículas
+                    particle.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
 
                     particlesContainer.appendChild(particle);
                 }
             }
 
-            // Toggle para mostrar/ocultar contraseña
+            // LÓGICA DE MOSTRAR/OCULTAR CONTRASEÑA (Mantenida)
             document.querySelectorAll('.toggle-password').forEach(button => {
                 button.addEventListener('click', function () {
-                    const input = this.closest('.input-group').querySelector('input');
+                    // El input ahora es un hermano dentro del mismo 'password-group'
+                    const input = this.closest('.password-group').querySelector('input');
                     const icon = this.querySelector('i');
 
                     if (input.type === 'password') {
@@ -138,8 +388,7 @@
                         icon.classList.remove('fa-eye');
                         icon.classList.add('fa-eye-slash');
                     }
-                    else
-                    {
+                    else {
                         input.type = 'password';
                         icon.classList.remove('fa-eye-slash');
                         icon.classList.add('fa-eye');
@@ -147,17 +396,20 @@
                 });
             });
 
-            // Efecto hover en contenedor
-            const loginContainer = document.querySelector('.login-container');
-            loginContainer.addEventListener('mouseenter', function () {
-                this.style.boxShadow = '0 0 30px rgba(48, 63, 159, 0.6)';
-                this.style.borderColor = 'rgba(48, 63, 159, 0.5)';
-            });
+            // LÓGICA DEL EFECTO HOVER EN EL CONTENEDOR (Mantenida)
+            const loginContainer = document.querySelector('.main-wrapper');
+            if (loginContainer) {
+                loginContainer.addEventListener('mouseenter', function () {
+                    this.style.boxShadow = '0 0 35px rgba(255, 87, 34, 0.8)';
+                    this.style.borderColor = 'rgba(255, 87, 34, 0.6)';
+                });
 
-            loginContainer.addEventListener('mouseleave', function () {
-                this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.4)';
-                this.style.borderColor = 'rgba(26, 35, 126, 0.3)';
-            });
+                loginContainer.addEventListener('mouseleave', function () {
+                    this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.5)';
+                    this.style.borderColor = 'transparent';
+                });
+            }
+
 
             // Inicializar partículas y ajustar al cambiar tamaño
             createParticles();
